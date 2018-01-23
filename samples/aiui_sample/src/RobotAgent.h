@@ -14,11 +14,11 @@ private:
 
 public:
 
-	enum Direction{LEFT, RIGHT, TOP, BOTTOM};
+	enum Direction{LEFT, RIGHT, TOP, BOTTOM, FRONT, BACK};
 
 	void moveByDirection(Direction direc);		// 根据方向进行运动
 	void translationByDirec(Direction direc);	// 根据方向进行平移
-	void moveByAxis(int axId, char direc);	// 根据轴ID进行运动
+	void moveByAxis(int axId, bool isClockwise);	// 根据轴ID进行运动
 	void startTasket();							// 启动当前任务
 	void stopTasket();							// 停止当前任务
 	void initRobot();							// 初始化机械臂

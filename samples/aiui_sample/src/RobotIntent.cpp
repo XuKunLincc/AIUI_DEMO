@@ -17,7 +17,7 @@ RobotIntent::RobotIntent(RobotAgent *robot, Json::Value intentJson){
 	if(slotsJson.empty())
 		cout << "slotsJson was null" << endl;
 
-	parameterJson = slotsJson["value"];
+	parameterJson = slotsJson["normValue"];
 	if(parameterJson.empty())
 		cout << "parameterJson was null" << endl;
 

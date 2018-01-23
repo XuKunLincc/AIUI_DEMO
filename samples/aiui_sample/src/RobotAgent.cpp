@@ -25,12 +25,12 @@ void RobotAgent::moveByDirection(Direction direc){
 
 
 // 根据轴ID和方向进行转动
-void RobotAgent::moveByAxis(int axId, char direc){
+void RobotAgent::moveByAxis(int axId, bool isClockwise){
 
-	if(direc == 0){	// 逆时针
-
-	}else{	// 顺时针
-
+	if(isClockwise){	// 顺时针
+		cout << "单轴顺时针" << endl;
+	}else{	// 逆时针
+		cout << "单轴逆时针" << endl;
 	}
 }
 
