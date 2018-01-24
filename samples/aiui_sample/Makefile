@@ -19,12 +19,12 @@ INCS += ../../include/
 TARGET = demo
 
 # The C program compiler.
-CC = g++
+CC = g++ -m32
 
 # The pre-processor and compiler options.
 # Users can override those variables from the command line.
 CFLAGS := $(foreach inc, $(INCS), -I$(inc))
-CFLAGS +=  -fPIC -g -D_GLIBCXX_USE_CXX11_ABI=0
+CFLAGS +=  -fPIC -g -D_GLIBCXX_USE_CXX11_ABI=0 -D_LINUX_
 
 # The options used in linking as well as in any direct use of ld.
 ifdef LINUX64
@@ -32,7 +32,7 @@ LDFLAGS := -L$(DIR_LIB)/x64
 else
 LDFLAGS := -L$(DIR_LIB)/x86 
 endif
-LDFLAGS += -fPIC -pthread -laiui
+LDFLAGS += -fPIC -pthread -laiui -lLogApi -lHsc3Api -lCommApi -lboost_atomic -lboost_chrono -lboost_system -lboost_thread
 
 ## Stable Section: usually no need to be changed. But you can add more.
 ##==========================================================================

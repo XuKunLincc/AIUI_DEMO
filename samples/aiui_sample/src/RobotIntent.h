@@ -24,16 +24,3 @@ public:
 	virtual void execAction(){};	// 执行对应的Action
 };
 
-
-/*
-*	机器人状态控制意图类
-*/
-/*
-class ControlIntent::public RobotIntent{
-private:
-
-public:
-	ControlIntent(RobotAgent *robot, Json::Value intent);
-	void execAction();
-
-}*/

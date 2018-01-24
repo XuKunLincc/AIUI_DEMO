@@ -9,7 +9,7 @@
 #define AIUIAGENTTEST_H_
 
 #include "aiui/AIUI.h"
-
+#include "RobotAgent.h"
 
 #include <string>
 #include <iostream>
@@ -32,8 +32,11 @@
 #define LOG_DIR "./AIUI/log"
 #endif
 
+#include "jsoncpp/json/json.h"
+
 using namespace aiui;
 using namespace std;
+using namespace VA;
 
 
 class WriteAudioThread
@@ -71,8 +74,11 @@ public:
 
 class TestListener : public IAIUIListener
 {
+private:
+	void parseIntent(Json::Value intentJson) const;
 public:
 	void onEvent(const IAIUIEvent& event) const;
+	RobotAgent* mRobot;
 };
 
 
@@ -82,6 +88,8 @@ private:
 	IAIUIAgent* agent;
 
 	TestListener listener;
+
+	RobotAgent* mRobot;
 
 	WriteAudioThread * writeThread;
 public:
@@ -98,6 +106,8 @@ private:
 	void reset();
 	void writeText();
 	void destory();
+	void createRobot();
+	
 
 public:
 	void readCmd();

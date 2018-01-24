@@ -1,4 +1,5 @@
 #include "MoveIntent.h"
+#include <stdlib.h>
 
 MoveIntent::MoveIntent(RobotAgent *robot, Json::Value intent) : RobotIntent(robot, intent){
 
@@ -51,6 +52,9 @@ void MoveIntent::execAction(){
 		case MOVE_BY_AXIS_ANTICLOCK:
 			moveAxis();			// 单关节运动
 			break;
+		case TRAN_BY_DIRECTION:
+			translationByDirec();
+			break;
 	}
 }
 
@@ -68,7 +72,7 @@ void MoveIntent::translationByDirec(){
 }
 
 void MoveIntent::getAxisId(){
-	int tmp = parameterJson.asInt();
+	int tmp = atoi(parameterJson.asString().c_str());
 	if(tmp > 0 && tmp <= 6)
 		axisId = tmp;
 	else
