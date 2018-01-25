@@ -2,20 +2,20 @@
 
 #include "RobotIntent.h"
 
-#define CONTROL_START "start"
-#define CONTROL_STOP "stop"
-#define CONTROL_CONTINUE "continue"
-#define CONTROL_INIT "init"
+#define CONTROL_START_STR "start"
+#define CONTROL_STOP_STR "stop"
+#define CONTROL_CONTINUE_STR "continue"
+#define CONTROL_INIT_STR "init"
 
 class ControlIntent : public RobotIntent{
 
 private:
 	enum ControlState{
-		READY = 0,
+		READY = -1,
 		START,
 		STOP,
 		CONTINUE,
-		INIT
+		INIT,
 	} controlState;
 	
 	void startTasket();

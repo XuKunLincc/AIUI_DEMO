@@ -3,7 +3,7 @@
 #include <iostream>
 
 // 测试模式标志
-#define TEST_MODE  0
+#define TEST_MODE  1
 
 // 关节坐标下的运动
 void RobotAgent::moveByDirection(Direction direc){
@@ -27,7 +27,7 @@ void RobotAgent::moveByDirection(Direction direc){
 
 
 // 根据轴ID和方向进行转动
-void RobotAgent::moveByAxis(int axId, bool isClockwise){
+void RobotAgent::moveAxis(int axId, bool isClockwise){
 
 	if(isClockwise){	// 顺时针
 		cout << "单轴顺时针" << endl;
@@ -45,7 +45,7 @@ void RobotAgent::moveByAxis(int axId, bool isClockwise){
 
 
 // 世界坐标下的平移
-void RobotAgent::translationByDirec(Direction direc){
+void RobotAgent::translation(Direction direc){
 
 	switch(direc){
 		case RobotAgent::RIGHT:
@@ -62,6 +62,32 @@ void RobotAgent::translationByDirec(Direction direc){
 			break;
 	}
 	
+}
+
+int RobotAgent::enable(bool enable){
+#if TEST_MODE == 0
+	HMCErrCode errorCode = mProxyMotion->setGpEn(0, enable);		// 上使能
+	if(errorCode){
+		cout << "setGpEn err" << endl;
+		return -1;
+	}
+	return 0;
+#else
+	robot_debug("set the robot enable \n");
+#endif
+}
+
+int RobotAgent::setSpeed(int speed){
+#if TEST_MODE == 0
+	HMCErrCode errorCode = mProxyMotion->getJogVord(speed);		// 上使能
+	if(errorCode){
+		cout << "set sepeed err" << endl;
+		return -1;
+	}
+	return 0;
+#else
+	robot_debug("set the robot speed \n");
+#endif
 }
 
 
@@ -86,7 +112,7 @@ int RobotAgent::initRobot(){
 		return -1;	
 	}
 	mProxyMotion->setOpMode(OP_T1);		// 设置为手动T1模式
-	mProxyMotion->setJogVord(10);		// 默认10的倍速
+	mProxyMotion->setJogVord(10);			// 默认10的倍速
 	HMCErrCode errorCode = mProxyMotion->setGpEn(0, true);		// 上使能
 	if(errorCode){
 		cout << "setGpEn err" << endl;
