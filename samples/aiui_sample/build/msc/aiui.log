@@ -25716,3 +25716,365 @@ Content-Length: 381
 [2018/01/24 19:57:10 855] [P0x00000fa6] [T0x00000fe5] D/DataReceiver(line 228)         :reconnect by next IP=117.121.13.226:0
 [2018/01/24 19:57:11 050] [P0x00000fa6] [T0x00000fb0] D/NameServer(line 238)           :nameserver already started.
 [2018/01/24 19:57:11 050] [P0x00000fa6] [T0x00000fb0] D/NameServer(line 197)           :resolveHost begin.
+================================================================
+Time 2018/01/25 15:35:31 552
+================================================================
+[2018/01/25 15:35:31 572] [P0x00003220] [T0x00003220] I/AIUISession(line 72)           :session begin, sessionNo=1.
+[2018/01/25 15:35:31 573] [P0x00003220] [T0x00003220] D/NameServer(line 197)           :resolveHost begin.
+[2018/01/25 15:35:31 609] [P0x00003220] [T0x00003227] D/NameServer(line 121)           :dns resolve hdns.openspeech.cn as [117.121.56.5], spent 36ms.
+[2018/01/25 15:35:31 610] [P0x00003220] [T0x00003227] D/NameServer(line 152)           :getNameServerResult, GET request:
+GET /sip/resolver?srand=0125153561.99 HTTP/1.1
+Connection: Close
+Accept-Encoding: gzip
+Host: hdns.openspeech.cn
+X-Par: ver=1.3&appid=5a5b1d9a&operator=&nettype=&cver=5.5.1017.0000&svc=aiui&host=aiui-ipv6.openspeech.cn&sign=521b115403699f1e47156f0342205b14
+
+
+[2018/01/25 15:35:31 699] [P0x00003220] [T0x00003227] D/NameServer(line 165)           :getNameServerResult, spent 89ms, response:
+{"dns":[{"host":"aiui-ipv6.openspeech.cn","sip":[{"svc":"aiui","ips":[{"ip":"117.121.4.242","port":1032,"idc":"ch"},{"ip":"117.121.13.226","port":1032,"idc":"ch"}],"ttl":6000,"compel":0}]}],"default":[{"host":"aiui-ipv6.openspeech.cn","sip":[{"svc":"aiui","ips":[{"ip":"117.121.13.226","port":1032,"idc":"ch"}],"ttl":6000,"compel":0}]}]}
+
+[2018/01/25 15:35:31 700] [P0x00003220] [T0x00003227] D/NameServer(line 372)           :dns nameserver resolve aiui-ipv6.openspeech.cn as [117.121.4.242, 117.121.13.226], spent 126ms, ttl=6000.
+[2018/01/25 15:35:31 700] [P0x00003220] [T0x00003227] D/NameServer(line 386)           :dns nameserver set current address.
+[2018/01/25 15:35:31 700] [P0x00003220] [T0x00003227] D/NameServer(line 388)           :dns nameserver update.
+[2018/01/25 15:35:31 700] [P0x00003220] [T0x00003227] D/NameServer(line 330)           :startTask, ttl = 6000.
+[2018/01/25 15:35:31 708] [P0x00003220] [T0x00003220] D/NameServer(line 219)           :dns resolve aiui-ipv6.openspeech.cn as [117.121.13.226, 117.121.4.242], spent 8ms.
+[2018/01/25 15:35:31 709] [P0x00003220] [T0x00003220] I/DataSender(line 50)            :start sender.
+[2018/01/25 15:35:31 710] [P0x00003220] [T0x00003220] I/DataSender(line 104)           :started success.
+[2018/01/25 15:35:31 710] [P0x00003220] [T0x0000322d] D/UpConnection(line 284)         :start connecting, tid=12845, sessionNo=1.
+[2018/01/25 15:35:31 710] [P0x00003220] [T0x00003220] I/DataReceiver(line 37)          :start receiver.
+[2018/01/25 15:35:31 710] [P0x00003220] [T0x0000322d] D/UpConnection(line 221)         :dns lookup aiui-ipv6.openspeech.cn as 117.121.4.242:1032, spent 0ms.
+[2018/01/25 15:35:31 711] [P0x00003220] [T0x0000322d] D/UpConnection(line 225)         :hostIP=117.121.4.242.
+[2018/01/25 15:35:31 711] [P0x00003220] [T0x0000322d] D/UpConnection(line 242)         :connecting ws://aiui-ipv6.openspeech.cn/aiui/v2/upload.do, tid=12845, sessionNo=1.
+[2018/01/25 15:35:31 711] [P0x00003220] [T0x00003220] I/DataReceiver(line 82)          :started success.
+[2018/01/25 15:35:31 711] [P0x00003220] [T0x00003220] I/AIUISession(line 135)          :session has begun, spent 138ms.
+[2018/01/25 15:35:31 711] [P0x00003220] [T0x00003232] D/PushConnection(line 321)       :dns lookup aiui-ipv6.openspeech.cn as 117.121.4.242:1032, spent 0ms.
+[2018/01/25 15:35:31 711] [P0x00003220] [T0x00003230] D/PushConnection(line 233)       :dns lookup aiui-ipv6.openspeech.cn as 117.121.4.242:1032, spent 0ms.
+[2018/01/25 15:35:31 712] [P0x00003220] [T0x00003230] D/PushConnection(line 236)       :getPushNode hostIP=117.121.4.242.
+[2018/01/25 15:35:31 712] [P0x00003220] [T0x00003230] D/PushConnection(line 254)       :getPushNode, GET request:
+GET /aiui/v1/pushnode.do HTTP/1.0
+Host: aiui-ipv6.openspeech.cn
+
+
+[2018/01/25 15:35:31 712] [P0x00003220] [T0x00003232] D/PushConnection(line 325)       :getChidHttps hostIP=117.121.4.242.
+[2018/01/25 15:35:31 713] [P0x00003220] [T0x0000322b] W/DataSender(line 542)           :not logined status, won't send packet.
+[2018/01/25 15:35:31 714] [P0x00003220] [T0x00003232] D/PushConnection(line 352)       :getChid, POST request:
+POST /v1.1/server/register HTTP/1.1
+Content-Type: text/json
+Connection: Close
+Content-Length: 381
+
+{"appid":"5a5b1d9a","cmd":1,"did":"msc_mac=eth0:00:0c:29:c3:b9:ca","lgi_params":{"app.name":"demo","app.path":"/home/eima/Work/trico-robot/speech/aiui/samples/aiui_sample/build","cver":"5.5.1017.0000","imei":"","key":"c522a8373da33151b0dcc161afbe4b9d","mac":"msc_mac=eth0:00:0c:29:c3:b9:ca","openudid":"","pwd":"","unique_id":"23b627e0dab3bb6f7781217ca043a60ce","usr":""},"uid":""}
+
+[2018/01/25 15:35:31 795] [P0x00003220] [T0x00003230] D/PushConnection(line 270)       :getPushNode, spent 84ms, response:
+HTTP/1.1 200 OK
+Server: Nginx-XF/1.9.2-001
+Date: Thu, 25 Jan 2018 07:35:30 GMT
+Content-Type: text/json
+Content-Length: 30
+Connection: close
+
+{"addr":"117.121.13.226:3200"}
+
+[2018/01/25 15:35:31 795] [P0x00003220] [T0x00003230] D/PushConnection(line 284)       :getPushNode, success, addr=117.121.13.226:3200.
+[2018/01/25 15:35:31 796] [P0x00003220] [T0x0000322d] D/UpConnection(line 256)         :connected to ws://aiui-ipv6.openspeech.cn/aiui/v2/upload.do, spent 85ms, tid=12845, sessionNo=1.
+[2018/01/25 15:35:31 796] [P0x00003220] [T0x0000322d] D/UpConnection(line 305)         :connect success, tid=12845, sessionNo=1.
+[2018/01/25 15:35:31 796] [P0x00003220] [T0x0000322d] D/DataSender(line 1117)          :up connected, try to send packet.
+[2018/01/25 15:35:31 796] [P0x00003220] [T0x0000322d] D/UpConnection(line 339)         :start receiving, tid=12845, sessionNo=1.
+[2018/01/25 15:35:31 797] [P0x00003220] [T0x0000322b] W/DataSender(line 542)           :not logined status, won't send packet.
+[2018/01/25 15:35:31 884] [P0x00003220] [T0x00003225] D/SessLogSender(line 133)        :dns resolve scs.openspeech.cn as [60.166.12.154], spent 9ms.
+[2018/01/25 15:35:31 900] [P0x00003220] [T0x00003232] D/PushConnection(line 372)       :getChid, spent 185ms, response:
+HTTP/1.1 200 OK
+Server: Nginx-XF/1.9.2-001
+Date: Thu, 25 Jan 2018 07:35:30 GMT
+Content-Type: text/plain; charset=utf-8
+Content-Length: 71
+Connection: close
+
+{"ret":0,"uid":"d8842650194","chid":"cid6f1c9afc@ch00da0dc4d4c2000000"}
+
+[2018/01/25 15:35:31 900] [P0x00003220] [T0x00003232] D/PushConnection(line 399)       :getChid, success, chid=cid6f1c9afc@ch00da0dc4d4c2000000.
+[2018/01/25 15:35:31 902] [P0x00003220] [T0x0000322e] D/PushConnection(line 518)       :start connecting, tid=12846, sessionNo=1.
+[2018/01/25 15:35:31 944] [P0x00003220] [T0x0000322e] D/PushConnection(line 533)       :connect success, tid=12846, sessionNo=1.
+[2018/01/25 15:35:31 944] [P0x00003220] [T0x0000322e] D/DataReceiver(line 270)         :push connected.
+[2018/01/25 15:35:31 945] [P0x00003220] [T0x0000322e] D/PushConnection(line 572)       :start receiving, tid=12846, sessionNo=1.
+[2018/01/25 15:35:31 946] [P0x00003220] [T0x00003235] D/PushConnection(line 472)       :login to push server, request:
+POST http://117.121.13.226:3200 HTTP/1.1
+Content-Type: text/json
+Content-Length: 43
+X-Port: json
+X-Sub: device_login
+X-Sid: cid6f1c9afc@ch00da0dc4d4c2000000
+X-NeedFeedBack: true
+Connection: Keep-Alive
+
+{"chid":"cid6f1c9afc@ch00da0dc4d4c2000000"}
+
+[2018/01/25 15:35:31 946] [P0x00003220] [T0x00003235] D/PushConnection(line 1094)      :send PING heartbeat, S, tid=12853.
+[2018/01/25 15:35:31 954] [P0x00003220] [T0x00003225] D/SessLogSender(line 207)        :response status is 200, ip is 60.166.12.154
+[2018/01/25 15:35:31 955] [P0x00003220] [T0x00003225] D/SessLogSender(line 292)        :handleReceive result is {"rsp":{"code":0,"des":"upload success"}}
+
+[2018/01/25 15:35:31 955] [P0x00003220] [T0x00003224] D/SessLogManager(line 78)        :sessinfo log send success, index is 4, sid is scs5a5b1d9a@ch8d950dc3c083460de1
+[2018/01/25 15:35:31 987] [P0x00003220] [T0x0000322e] D/PushConnection(line 649)       :receive data, length=1.
+[2018/01/25 15:35:31 987] [P0x00003220] [T0x0000322e] D/PushConnection(line 662)       :parsed as 1 PONG heartbeat A.
+[2018/01/25 15:35:32 029] [P0x00003220] [T0x0000322e] D/PushConnection(line 649)       :receive data, length=217.
+[2018/01/25 15:35:32 029] [P0x00003220] [T0x0000322e] D/PushConnection(line 673)       :encounter a http message header.
+[2018/01/25 15:35:32 030] [P0x00003220] [T0x0000322e] D/PushConnection(line 772)       :parse http header success, HeaderLength=205, ContentLength=12, BufferLength=217.
+[2018/01/25 15:35:32 030] [P0x00003220] [T0x0000322e] D/PushConnection(line 782)       :receive a complete http message, header:
+POST / HTTP/1.1
+X-Sid: cid6f1c9afc@ch00da0dc4d4c2000000
+X-Cid: 192.168.111.27:1211&37643&865731&3280
+X-Login-Code: 0
+Content-Type: text/json;charset=utf-8
+X-Sub: login_feedback
+Content-Length: 12
+
+
+[2018/01/25 15:35:32 030] [P0x00003220] [T0x00003235] D/PushConnection(line 1003)      :send PUSH ack.
+[2018/01/25 15:35:32 030] [P0x00003220] [T0x0000322e] D/PushConnection(line 858)       :parsed as LOGIN_FB message.
+[2018/01/25 15:35:32 030] [P0x00003220] [T0x0000322e] D/PushConnection(line 861)       :login response:
+POST / HTTP/1.1
+X-Sid: cid6f1c9afc@ch00da0dc4d4c2000000
+X-Cid: 192.168.111.27:1211&37643&865731&3280
+X-Login-Code: 0
+Content-Type: text/json;charset=utf-8
+X-Sub: login_feedback
+Content-Length: 12
+
+{ "ret": 0 }
+
+[2018/01/25 15:35:32 030] [P0x00003220] [T0x0000322e] D/PushConnection(line 873)       :login success.
+[2018/01/25 15:35:32 031] [P0x00003220] [T0x0000322a] I/AIUISession(line 424)          :connected to server.
+[2018/01/25 15:35:32 031] [P0x00003220] [T0x0000322e] D/PushConnection(line 841)       :left 0 bytes in buffer.
+
+[2018/01/25 15:35:32 031] [P0x00003220] [T0x0000322a] D/DataSender(line 768)           :clear ack error.
+[2018/01/25 15:35:32 032] [P0x00003220] [T0x00003235] D/PushConnection(line 1094)      :send PING heartbeat, S, tid=12853.
+[2018/01/25 15:35:32 033] [P0x00003220] [T0x0000322b] D/DataSender(line 647)           :send packet, ret=477, need_resend=0, send_cnt=1, sessionNo=1, info:
+streamId=event-1
+frameId=1
+sid=cid6f1c9afc@ch00da0dc4d4c2050001
+dataType=-2147483648
+dataStatus=3
+dataLen=1
+args={"cnt_id":"0","dte":"","dtf":""}
+params={"dev_lang":"cpp","dts":"5","dtype":"null","event_only":"1","os":"Linux","prot_type":"pb","scene":"main","sdk_ver":"5.5.1017.0000","status":{"event":{"name":"start","operation":{"name":"null"},"source":"sdk"},"state":{"last_state":"idle","name":"ready"}},"stmid":"event-1","userparams":"eyJrMSI6InYxIiwiazIiOiJ2MiJ9","ver_type":"desktop_pc"}
+userParams=eyJrMSI6InYxIiwiazIiOiJ2MiJ9
+
+[2018/01/25 15:35:32 072] [P0x00003220] [T0x0000322e] D/PushConnection(line 649)       :receive data, length=1.
+[2018/01/25 15:35:32 072] [P0x00003220] [T0x0000322e] D/PushConnection(line 662)       :parsed as 1 PONG heartbeat A.
+[2018/01/25 15:35:32 079] [P0x00003220] [T0x0000322d] D/UpConnection(line 409)         :receive data, dataLen=79
+[2018/01/25 15:35:32 079] [P0x00003220] [T0x0000322c] D/DataSender(line 735)           :receive ack packet, s2ack_time=46ms, info:
+streamId=event-1
+frameId=1
+retCode=0
+
+[2018/01/25 15:35:32 476] [P0x00003220] [T0x00003225] D/SessLogSender(line 133)        :dns resolve scs.openspeech.cn as [60.166.12.154], spent 0ms.
+[2018/01/25 15:35:32 512] [P0x00003220] [T0x00003225] D/SessLogSender(line 207)        :response status is 200, ip is 60.166.12.154
+[2018/01/25 15:35:32 512] [P0x00003220] [T0x00003225] D/SessLogSender(line 292)        :handleReceive result is {"rsp":{"code":0,"des":"upload success"}}
+
+[2018/01/25 15:35:32 512] [P0x00003220] [T0x00003224] D/SessLogManager(line 78)        :sessinfo log send success, index is 5, sid is scs5a5b1d9a@ch8d950dc3c084460de1
+[2018/01/25 15:35:32 715] [P0x00003220] [T0x0000322b] D/DataSender(line 647)           :send packet, ret=541, need_resend=0, send_cnt=1, sessionNo=1, info:
+streamId=event-2
+frameId=1
+sid=cid6f1c9afc@ch00da0dc4d4c2050002
+dataType=-2147483648
+dataStatus=3
+dataLen=1
+args={"cnt_id":"0","dte":"speex-wb;10","dtf":"audio/L16;rate=16000"}
+params={"dev_lang":"cpp","dsrc":"user","dts":"5","dtype":"null","event_only":"1","interact_mode":"continuous","os":"Linux","prot_type":"pb","scene":"main","sdk_ver":"5.5.1017.0000","status":{"event":{"name":"wakeup","operation":{"name":"null"},"source":"user"},"state":{"last_state":"ready","name":"working"}},"stmid":"event-2","userparams":"eyJrMSI6InYxIiwiazIiOiJ2MiJ9","ver_type":"desktop_pc"}
+userParams=eyJrMSI6InYxIiwiazIiOiJ2MiJ9
+
+[2018/01/25 15:35:32 715] [P0x00003220] [T0x0000322b] D/DataSender(line 647)           :send packet, ret=493, need_resend=0, send_cnt=1, sessionNo=1, info:
+streamId=event-3
+frameId=1
+sid=cid6f1c9afc@ch00da0dc4d4c2050003
+dataType=-2147483648
+dataStatus=3
+dataLen=1
+args={"cnt_id":"0","dte":"","dtf":""}
+params={"dev_lang":"cpp","dts":"5","dtype":"null","event_only":"1","os":"Linux","prot_type":"pb","scene":"main","sdk_ver":"5.5.1017.0000","status":{"event":{"name":"cmd","operation":{"name":"clean_history"},"source":"user"},"state":{"last_state":"ready","name":"working"}},"stmid":"event-3","userparams":"eyJrMSI6InYxIiwiazIiOiJ2MiJ9","ver_type":"desktop_pc"}
+userParams=eyJrMSI6InYxIiwiazIiOiJ2MiJ9
+
+[2018/01/25 15:35:32 758] [P0x00003220] [T0x0000322d] D/UpConnection(line 409)         :receive data, dataLen=79
+[2018/01/25 15:35:32 758] [P0x00003220] [T0x0000322c] D/DataSender(line 735)           :receive ack packet, s2ack_time=43ms, info:
+streamId=event-2
+frameId=1
+retCode=0
+
+[2018/01/25 15:35:32 759] [P0x00003220] [T0x0000322d] D/UpConnection(line 409)         :receive data, dataLen=79
+[2018/01/25 15:35:32 759] [P0x00003220] [T0x0000322c] D/DataSender(line 735)           :receive ack packet, s2ack_time=44ms, info:
+streamId=event-3
+frameId=1
+retCode=0
+
+[2018/01/25 15:35:33 079] [P0x00003220] [T0x00003225] D/SessLogSender(line 133)        :dns resolve scs.openspeech.cn as [60.166.12.154], spent 0ms.
+[2018/01/25 15:35:33 118] [P0x00003220] [T0x00003225] D/SessLogSender(line 207)        :response status is 200, ip is 60.166.12.154
+[2018/01/25 15:35:33 118] [P0x00003220] [T0x00003225] D/SessLogSender(line 292)        :handleReceive result is {"rsp":{"code":0,"des":"upload success"}}
+
+[2018/01/25 15:35:33 118] [P0x00003220] [T0x00003224] D/SessLogManager(line 78)        :sessinfo log send success, index is 6, sid is scs5a5b1d9a@ch8d950dc3c084460de1
+[2018/01/25 15:35:37 900] [P0x00003220] [T0x00003225] D/SessLogSender(line 133)        :dns resolve scs.openspeech.cn as [60.166.12.154], spent 0ms.
+[2018/01/25 15:35:37 935] [P0x00003220] [T0x00003225] D/SessLogSender(line 207)        :response status is 200, ip is 60.166.12.154
+[2018/01/25 15:35:37 935] [P0x00003220] [T0x00003225] D/SessLogSender(line 292)        :handleReceive result is {"rsp":{"code":0,"des":"upload success"}}
+
+[2018/01/25 15:35:37 936] [P0x00003220] [T0x00003224] D/SessLogManager(line 78)        :sessinfo log send success, index is 7, sid is cid6f1c9afc@ch00da0dc4d4c2050001
+[2018/01/25 15:35:39 103] [P0x00003220] [T0x00003225] D/SessLogSender(line 133)        :dns resolve scs.openspeech.cn as [60.166.12.154], spent 0ms.
+[2018/01/25 15:35:39 138] [P0x00003220] [T0x00003225] D/SessLogSender(line 207)        :response status is 200, ip is 60.166.12.154
+[2018/01/25 15:35:39 138] [P0x00003220] [T0x00003225] D/SessLogSender(line 292)        :handleReceive result is {"rsp":{"code":0,"des":"upload success"}}
+
+[2018/01/25 15:35:39 138] [P0x00003220] [T0x00003224] D/SessLogManager(line 78)        :sessinfo log send success, index is 8, sid is cid6f1c9afc@ch00da0dc4d4c2050002
+[2018/01/25 15:35:39 522] [P0x00003220] [T0x00003222] D/DataSender(line 471)           :set result timeout 5000ms for stream text-1, taskId=1004.
+[2018/01/25 15:35:39 523] [P0x00003220] [T0x0000322b] D/DataSender(line 647)           :send packet, ret=443, need_resend=0, send_cnt=1, sessionNo=1, info:
+streamId=text-1
+frameId=1
+sid=cid6f1c9afc@ch00da0dc4d4c9010001
+dataType=0
+dataStatus=3
+dataLen=3
+args={"cnt_id":"0","dte":"","dtf":""}
+params={"dts":"5","dtype":"text","scene":"main","stmid":"text-1","userparams":"eyJrMSI6InYxIiwiazIiOiJ2MiJ9"}
+userParams=eyJrMSI6InYxIiwiazIiOiJ2MiJ9
+
+[2018/01/25 15:35:39 565] [P0x00003220] [T0x0000322d] D/UpConnection(line 409)         :receive data, dataLen=79
+[2018/01/25 15:35:39 566] [P0x00003220] [T0x0000322c] D/DataSender(line 735)           :receive ack packet, s2ack_time=43ms, info:
+streamId=text-1
+frameId=1
+retCode=0
+
+[2018/01/25 15:35:39 684] [P0x00003220] [T0x0000322e] D/PushConnection(line 649)       :receive data, length=594.
+[2018/01/25 15:35:39 684] [P0x00003220] [T0x0000322e] D/PushConnection(line 673)       :encounter a http message header.
+[2018/01/25 15:35:39 684] [P0x00003220] [T0x0000322e] D/PushConnection(line 772)       :parse http header success, HeaderLength=257, ContentLength=337, BufferLength=594.
+[2018/01/25 15:35:39 684] [P0x00003220] [T0x0000322e] D/PushConnection(line 782)       :receive a complete http message, header:
+POST /main.do HTTP/1.1
+X-Prot: aiuidatamsg
+X-Sid: cid6f1c9afc@ch00da0dc4d4c2000000
+X-SessionID: cid6f1c9afc@ch00da0dc4d4c9010001
+X-Msg-Id: kc-1
+Content-Type: text/plain
+Content-Length: 337
+X-Cid: 192.168.111.27:1211&37643&865731&3280
+X-Sub: Push
+
+
+[2018/01/25 15:35:39 685] [P0x00003220] [T0x0000322e] D/PushConnection(line 910)       :parsed as PUSH message.
+[2018/01/25 15:35:39 685] [P0x00003220] [T0x00003235] D/PushConnection(line 1003)      :send PUSH ack.
+[2018/01/25 15:35:39 685] [P0x00003220] [T0x0000322e] D/PushConnection(line 841)       :left 0 bytes in buffer.
+
+[2018/01/25 15:35:39 706] [P0x00003220] [T0x00003225] D/SessLogSender(line 133)        :dns resolve scs.openspeech.cn as [60.166.12.154], spent 0ms.
+[2018/01/25 15:35:41 242] [P0x00003220] [T0x00003225] D/SessLogSender(line 207)        :response status is 200, ip is 60.166.12.154
+[2018/01/25 15:35:41 242] [P0x00003220] [T0x00003225] D/SessLogSender(line 292)        :handleReceive result is {"rsp":{"code":0,"des":"upload success"}}
+
+[2018/01/25 15:35:41 242] [P0x00003220] [T0x00003225] D/SessLogSender(line 133)        :dns resolve scs.openspeech.cn as [60.166.12.154], spent 0ms.
+[2018/01/25 15:35:41 242] [P0x00003220] [T0x00003224] D/SessLogManager(line 78)        :sessinfo log send success, index is 9, sid is cid6f1c9afc@ch00da0dc4d4c2050003
+[2018/01/25 15:35:41 277] [P0x00003220] [T0x00003225] D/SessLogSender(line 207)        :response status is 200, ip is 60.166.12.154
+[2018/01/25 15:35:41 277] [P0x00003220] [T0x00003225] D/SessLogSender(line 292)        :handleReceive result is {"rsp":{"code":0,"des":"upload success"}}
+
+[2018/01/25 15:35:41 278] [P0x00003220] [T0x00003224] D/SessLogManager(line 78)        :sessinfo log send success, index is 10, sid is cid6f1c9afc@ch00da0dc4d4c9010001
+[2018/01/25 15:35:41 278] [P0x00003220] [T0x00003225] D/SessLogSender(line 133)        :dns resolve scs.openspeech.cn as [60.166.12.154], spent 0ms.
+[2018/01/25 15:35:41 313] [P0x00003220] [T0x00003225] D/SessLogSender(line 207)        :response status is 200, ip is 60.166.12.154
+[2018/01/25 15:35:41 313] [P0x00003220] [T0x00003225] D/SessLogSender(line 292)        :handleReceive result is {"rsp":{"code":0,"des":"upload success"}}
+
+[2018/01/25 15:35:41 314] [P0x00003220] [T0x00003224] D/SessLogManager(line 78)        :sessinfo log send success, index is 11, sid is cid6f1c9afc@ch00da0dc4d4c9010001
+[2018/01/25 15:35:42 033] [P0x00003220] [T0x00003235] D/PushConnection(line 1094)      :send PING heartbeat, S, tid=12853.
+[2018/01/25 15:35:42 073] [P0x00003220] [T0x0000322e] D/PushConnection(line 649)       :receive data, length=1.
+[2018/01/25 15:35:42 073] [P0x00003220] [T0x0000322e] D/PushConnection(line 662)       :parsed as 1 PONG heartbeat A.
+[2018/01/25 15:35:42 485] [P0x00003220] [T0x00003222] D/DataSender(line 471)           :set result timeout 5000ms for stream text-2, taskId=1006.
+[2018/01/25 15:35:42 485] [P0x00003220] [T0x0000322b] D/DataSender(line 647)           :send packet, ret=443, need_resend=0, send_cnt=1, sessionNo=1, info:
+streamId=text-2
+frameId=1
+sid=cid6f1c9afc@ch00da0dc4d4cc010002
+dataType=0
+dataStatus=3
+dataLen=9
+args={"cnt_id":"0","dte":"","dtf":""}
+params={"dts":"5","dtype":"text","scene":"main","stmid":"text-2","userparams":"eyJrMSI6InYxIiwiazIiOiJ2MiJ9"}
+userParams=eyJrMSI6InYxIiwiazIiOiJ2MiJ9
+
+[2018/01/25 15:35:42 528] [P0x00003220] [T0x0000322d] D/UpConnection(line 409)         :receive data, dataLen=79
+[2018/01/25 15:35:42 528] [P0x00003220] [T0x0000322c] D/DataSender(line 735)           :receive ack packet, s2ack_time=43ms, info:
+streamId=text-2
+frameId=1
+retCode=0
+
+[2018/01/25 15:35:42 607] [P0x00003220] [T0x0000322e] D/PushConnection(line 649)       :receive data, length=480.
+[2018/01/25 15:35:42 607] [P0x00003220] [T0x0000322e] D/PushConnection(line 673)       :encounter a http message header.
+[2018/01/25 15:35:42 607] [P0x00003220] [T0x0000322e] D/PushConnection(line 772)       :parse http header success, HeaderLength=257, ContentLength=223, BufferLength=480.
+[2018/01/25 15:35:42 607] [P0x00003220] [T0x0000322e] D/PushConnection(line 782)       :receive a complete http message, header:
+POST /main.do HTTP/1.1
+Content-Length: 223
+X-Prot: aiuidatamsg
+X-Sid: cid6f1c9afc@ch00da0dc4d4c2000000
+X-SessionID: cid6f1c9afc@ch00da0dc4d4cc010002
+X-Msg-Id: kc-1
+Content-Type: text/plain
+X-Cid: 192.168.111.27:1211&37643&865731&3280
+X-Sub: Push
+
+
+[2018/01/25 15:35:42 608] [P0x00003220] [T0x0000322e] D/PushConnection(line 910)       :parsed as PUSH message.
+[2018/01/25 15:35:42 608] [P0x00003220] [T0x00003235] D/PushConnection(line 1003)      :send PUSH ack.
+[2018/01/25 15:35:42 608] [P0x00003220] [T0x0000322e] D/PushConnection(line 841)       :left 0 bytes in buffer.
+
+[2018/01/25 15:35:42 716] [P0x00003220] [T0x00003225] D/SessLogSender(line 133)        :dns resolve scs.openspeech.cn as [60.166.12.154], spent 0ms.
+[2018/01/25 15:35:42 751] [P0x00003220] [T0x00003225] D/SessLogSender(line 207)        :response status is 200, ip is 60.166.12.154
+[2018/01/25 15:35:42 752] [P0x00003220] [T0x00003225] D/SessLogSender(line 292)        :handleReceive result is {"rsp":{"code":0,"des":"upload success"}}
+
+[2018/01/25 15:35:42 752] [P0x00003220] [T0x00003224] D/SessLogManager(line 78)        :sessinfo log send success, index is 12, sid is cid6f1c9afc@ch00da0dc4d4cc010002
+[2018/01/25 15:35:43 316] [P0x00003220] [T0x00003225] D/SessLogSender(line 133)        :dns resolve scs.openspeech.cn as [60.166.12.154], spent 0ms.
+[2018/01/25 15:35:44 276] [P0x00003220] [T0x00003225] D/SessLogSender(line 207)        :response status is 200, ip is 60.166.12.154
+[2018/01/25 15:35:44 276] [P0x00003220] [T0x00003225] D/SessLogSender(line 292)        :handleReceive result is {"rsp":{"code":0,"des":"upload success"}}
+
+[2018/01/25 15:35:44 276] [P0x00003220] [T0x00003224] D/SessLogManager(line 78)        :sessinfo log send success, index is 13, sid is cid6f1c9afc@ch00da0dc4d4cc010002
+[2018/01/25 15:35:45 723] [P0x00003220] [T0x00003225] D/SessLogSender(line 133)        :dns resolve scs.openspeech.cn as [60.166.12.154], spent 0ms.
+[2018/01/25 15:35:45 758] [P0x00003220] [T0x00003225] D/SessLogSender(line 207)        :response status is 200, ip is 60.166.12.154
+[2018/01/25 15:35:45 758] [P0x00003220] [T0x00003225] D/SessLogSender(line 292)        :handleReceive result is {"rsp":{"code":0,"des":"upload success"}}
+
+[2018/01/25 15:35:45 760] [P0x00003220] [T0x00003224] D/SessLogManager(line 78)        :sessinfo log send success, index is 14, sid is cid6f1c9afc@ch00da0dc4d4c9010001
+[2018/01/25 15:35:48 730] [P0x00003220] [T0x00003225] D/SessLogSender(line 133)        :dns resolve scs.openspeech.cn as [60.166.12.154], spent 0ms.
+[2018/01/25 15:35:48 768] [P0x00003220] [T0x00003225] D/SessLogSender(line 207)        :response status is 200, ip is 60.166.12.154
+[2018/01/25 15:35:48 768] [P0x00003220] [T0x00003225] D/SessLogSender(line 292)        :handleReceive result is {"rsp":{"code":0,"des":"upload success"}}
+
+[2018/01/25 15:35:48 769] [P0x00003220] [T0x00003224] D/SessLogManager(line 78)        :sessinfo log send success, index is 15, sid is cid6f1c9afc@ch00da0dc4d4cc010002
+[2018/01/25 15:35:52 036] [P0x00003220] [T0x00003235] D/PushConnection(line 1094)      :send PING heartbeat, S, tid=12853.
+[2018/01/25 15:35:52 076] [P0x00003220] [T0x0000322e] D/PushConnection(line 649)       :receive data, length=1.
+[2018/01/25 15:35:52 076] [P0x00003220] [T0x0000322e] D/PushConnection(line 662)       :parsed as 1 PONG heartbeat A.
+[2018/01/25 15:35:52 862] [P0x00003220] [T0x00003222] D/DataSender(line 471)           :set result timeout 5000ms for stream text-3, taskId=1008.
+[2018/01/25 15:35:52 863] [P0x00003220] [T0x0000322b] D/DataSender(line 647)           :send packet, ret=443, need_resend=0, send_cnt=1, sessionNo=1, info:
+streamId=text-3
+frameId=1
+sid=cid6f1c9afc@ch00da0dc4d4d6010003
+dataType=0
+dataStatus=3
+dataLen=9
+args={"cnt_id":"0","dte":"","dtf":""}
+params={"dts":"5","dtype":"text","scene":"main","stmid":"text-3","userparams":"eyJrMSI6InYxIiwiazIiOiJ2MiJ9"}
+userParams=eyJrMSI6InYxIiwiazIiOiJ2MiJ9
+
+[2018/01/25 15:35:52 908] [P0x00003220] [T0x0000322d] D/UpConnection(line 409)         :receive data, dataLen=79
+[2018/01/25 15:35:52 908] [P0x00003220] [T0x0000322c] D/DataSender(line 735)           :receive ack packet, s2ack_time=45ms, info:
+streamId=text-3
+frameId=1
+retCode=0
+
+[2018/01/25 15:35:52 987] [P0x00003220] [T0x0000322e] D/PushConnection(line 649)       :receive data, length=643.
+[2018/01/25 15:35:52 988] [P0x00003220] [T0x0000322e] D/PushConnection(line 673)       :encounter a http message header.
+[2018/01/25 15:35:52 988] [P0x00003220] [T0x0000322e] D/PushConnection(line 772)       :parse http header success, HeaderLength=257, ContentLength=386, BufferLength=643.
+[2018/01/25 15:35:52 988] [P0x00003220] [T0x0000322e] D/PushConnection(line 782)       :receive a complete http message, header:
+POST /main.do HTTP/1.1
+X-Prot: aiuidatamsg
+X-Sid: cid6f1c9afc@ch00da0dc4d4c2000000
+X-SessionID: cid6f1c9afc@ch00da0dc4d4d6010003
+X-Msg-Id: kc-1
+Content-Type: text/plain
+Content-Length: 386
+X-Cid: 192.168.111.27:1211&37643&865731&3280
+X-Sub: Push
+
+
+[2018/01/25 15:35:52 988] [P0x00003220] [T0x0000322e] D/PushConnection(line 910)       :parsed as PUSH message.
+[2018/01/25 15:35:52 988] [P0x00003220] [T0x00003235] D/PushConnection(line 1003)      :send PUSH ack.
+[2018/01/25 15:35:52 990] [P0x00003220] [T0x0000322e] D/PushConnection(line 841)       :left 0 bytes in buffer.
+
+[2018/01/25 15:35:53 540] [P0x00003220] [T0x00003225] D/SessLogSender(line 133)        :dns resolve scs.openspeech.cn as [60.166.12.154], spent 0ms.
+[2018/01/25 15:35:53 575] [P0x00003220] [T0x00003225] D/SessLogSender(line 207)        :response status is 200, ip is 60.166.12.154
+[2018/01/25 15:35:53 576] [P0x00003220] [T0x00003225] D/SessLogSender(line 292)        :handleReceive result is {"rsp":{"code":0,"des":"upload success"}}
+
+[2018/01/25 15:35:53 576] [P0x00003220] [T0x00003224] D/SessLogManager(line 78)        :sessinfo log send success, index is 16, sid is cid6f1c9afc@ch00da0dc4d4d6010003

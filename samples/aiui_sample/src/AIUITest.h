@@ -74,8 +74,6 @@ public:
 
 class TestListener : public IAIUIListener
 {
-private:
-	void parseIntent(Json::Value intentJson) const;
 public:
 	void onEvent(const IAIUIEvent& event) const;
 	RobotAgent* mRobot;
