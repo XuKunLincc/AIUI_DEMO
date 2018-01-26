@@ -27,9 +27,19 @@ void RobotAgent::moveByDirection(Direction direc){
 
 
 // 根据轴ID和方向进行转动
-void RobotAgent::moveAxis(int axId, bool isClockwise){
+void RobotAgent::moveAxis(int axId, bool isClockwise, int len){
+#if (TEST_MODE == 0)
+	if(len > 0){
+		mProxyMotion->setManualMode(MANUAL_INCREMENT);
+		mProxyMotion->setInchLen(len);
 
-	if(isClockwise){	// 顺时针
+	}else{
+		mProxyMotion->setManualMode(MANUAL_CONTINUE);
+	}
+#endif
+cout << "单轴逆时针" << len << "du"<< endl;
+
+if(isClockwise){	// 顺时针
 		cout << "单轴顺时针" << endl;
 #if (TEST_MODE == 0)
 		mProxyMotion->startJog(0, axId - 1, POSITIVE);
@@ -40,7 +50,6 @@ void RobotAgent::moveAxis(int axId, bool isClockwise){
 		mProxyMotion->startJog(0, axId - 1, NEGATIVE);
 #endif
 	}
-
 }
 
 
@@ -79,7 +88,7 @@ int RobotAgent::enable(bool enable){
 
 int RobotAgent::setSpeed(int speed){
 #if TEST_MODE == 0
-	HMCErrCode errorCode = mProxyMotion->getJogVord(speed);		// 上使能
+	HMCErrCode errorCode = mProxyMotion->setJogVord(speed);
 	if(errorCode){
 		cout << "set sepeed err" << endl;
 		return -1;
@@ -90,6 +99,19 @@ int RobotAgent::setSpeed(int speed){
 #endif
 }
 
+int RobotAgent::getSpeed(int &speed){
+#if TEST_MODE == 0
+	HMCErrCode errorCode = mProxyMotion->getJogVord(speed);		// 上使能
+	if(errorCode){
+		cout << "set sepeed err" << endl;
+		return -1;
+	}
+	return 0;
+#else
+	robot_debug("get the robot speed \n");
+	return 0;
+#endif
+}
 
 void RobotAgent::startTasket(){
 	robot_debug("startTasket \n");

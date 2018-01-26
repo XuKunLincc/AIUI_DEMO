@@ -2,8 +2,10 @@
 
 #include "RobotAgent.h"
 #include "jsoncpp/json/json.h"
+#include <map>
 
 #define MOVE_INITENT "FSHSTEST.robot_move"
+
 
 using namespace VA;
 using namespace std;
@@ -16,7 +18,8 @@ protected:
 	Json::Value semanticJson;
 	Json::Value subIntentJson;
 	Json::Value slotsJson;
- 	Json::Value parameterJson;
+	map<int,Json::Value> parameterMap;
+
 public:
 	RobotIntent(RobotAgent *robot, Json::Value intent);
 	//~RobotIntent();

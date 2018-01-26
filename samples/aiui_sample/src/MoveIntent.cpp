@@ -1,36 +1,36 @@
 #include "MoveIntent.h"
 #include <stdlib.h>
-#include <map>
 
 MoveIntent::MoveIntent(RobotAgent *robot, Json::Value intent) : RobotIntent(robot, intent){
 
-	string subIntentStr = subIntentJson.asString();
+	PAction pEnable = &MoveIntent::enable;
+	PAction pUnable = &MoveIntent::unable;
+	PAction pMoveAxisCW = &MoveIntent::moveAxisCW;
+	PAction pMoveAxisAC = &MoveIntent::moveAxisAC;
+	PAction pTranslation = &MoveIntent::translation;
+	PAction pSpeedUp = &MoveIntent::speedUp;
+	PAction pSpeedDown = &MoveIntent::speedDown;
 
-	if(subIntentStr == MOVE_BY_DIREC){
-		//robot_intent_debug("the subIntent was %s \n", MOVE_BY_DIREC);
-		this->subIntent = MOVE_BY_DIRECTION;
-		moveByDirecInit();
-	}else if(subIntentStr == TRANSLATION_BY_DIREC){
-		this->subIntent = TRAN_BY_DIRECTION; 
-		translationByDirecInit();
-	}else if(subIntentStr == MOVEAXIS_CLOCKWISE){	// 顺时针 单关节
-		this->isClockwise = true;
-		this->subIntent = MOVE_BY_AXIS_CLOCKWISE;
-		getAxisId();
-	}else if(subIntentStr == MOVEAXIS_ANTICLOCK){	// 逆时针 单关节
-		this->isClockwise = false;
-		this->subIntent = MOVE_BY_AXIS_ANTICLOCK;
-		getAxisId();
-	}else if(subIntentStr == ENABLE_STR){
-		this->subIntent = ENABLE;
-	}else if(subIntentStr == UNABLE_STR){
-		this->subIntent = UNABLE;
-	}
+	pair<string, PAction> pairEnable = make_pair(ENABLE_STR,pEnable);
+	pair<string, PAction> pairUnable = make_pair(UNABLE_STR,pUnable);
+	pair<string, PAction> pairMoveAxisCW = make_pair(MOVEAXIS_CLOCKWISE,pMoveAxisCW);
+	pair<string, PAction> pairMoveAxisAC = make_pair(MOVEAXIS_ANTICLOCK,pMoveAxisAC);
+	pair<string, PAction> pairTranslation = make_pair(TRANSLATION_BY_DIREC,pTranslation);
+	pair<string, PAction> pairSpeedUp = make_pair(SPPED_UP,pSpeedUp);
+	pair<string, PAction> pairSpeedDown = make_pair(SPPED_DOWN,pSpeedDown);
+
+	actionMap.insert(pairEnable);
+	actionMap.insert(pairUnable);
+	actionMap.insert(pairMoveAxisCW);
+	actionMap.insert(pairMoveAxisAC);
+	actionMap.insert(pairTranslation);
+	actionMap.insert(pairSpeedUp);
+	actionMap.insert(pairSpeedDown);
 }
 
-void MoveIntent::moveByDirecInit(){
-	string direcStr = parameterJson.asString();
-
+RobotAgent::Direction MoveIntent::getDirec(){
+	string direcStr = parameterMap[0].asString();
+	RobotAgent::Direction direction;
 	if(direcStr == "左"){
 		direction = RobotAgent::LEFT;
 	}else if(direcStr == "右"){
@@ -44,77 +44,61 @@ void MoveIntent::moveByDirecInit(){
 	}else if(direcStr == "后"){
 		direction = RobotAgent::BACK;
 	}
+	return direction;
 }
 
 
-int MoveIntent::enable(){
+void MoveIntent::enable(){
 	robot->enable(true);
 }
 
-int MoveIntent::unable(){
+void MoveIntent::unable(){
 	robot->enable(false);
 }
 
 void MoveIntent::execAction(){
-	switch(subIntent){
-		case MOVE_BY_DIRECTION:
-			moveByDirec();			// 开始运动
-			break;
-		case MOVE_BY_AXIS_CLOCKWISE:
-			moveAxis();			// 单关节运动
-			break;
-		case MOVE_BY_AXIS_ANTICLOCK:
-			moveAxis();			// 单关节运动
-			break;
-		case TRAN_BY_DIRECTION:
-			translation();
-			break;
-		case ENABLE:
-			enable();
-			break;
-		case UNABLE:
-			unable();
-			break;
-		case SPEED_UP:
-			speed_up();
-			break;
-		case SPEED_DOWN:
-			speed_down();
-			break;
-	}
+	string subIntentStr = subIntentJson.asString();
+	(this->*actionMap[subIntentStr])();
 }
 
-void MoveIntent::moveByDirec(){
-	this->robot->moveByDirection(this->direction);	// 控制机器人运动
+void  MoveIntent::translation(){
+	this->robot->translation(getDirec());	// 控制机械臂进行平移运动
 }
 
-
-void MoveIntent::translationByDirecInit(){
-	moveByDirecInit();				// 可以使用同一个初始化函数
-}
-
-void MoveIntent::translation(){
-	this->robot->translation(this->direction);	// 控制机械臂进行平移运动
-}
-
-void MoveIntent::getAxisId(){
-	int tmp = atoi(parameterJson.asString().c_str());
+int MoveIntent::getAxisId(){
+	int tmp = atoi(parameterMap[0].asString().c_str());
+	int axisId;
 	if(tmp > 0 && tmp <= 6)
 		axisId = tmp;
 	else
 		axisId = -1;
+	return axisId;
 }
 
-void MoveIntent::moveAxis(){
-	this->robot->moveAxis(axisId, isClockwise);
+void MoveIntent::moveAxisCW(){
+	moveAxis( getAxisId(), true);
 }
 
-void MoveIntent::speed_up(){
-	nowSpeed += speedStep;
-	this->robot->setSpeed(nowSpeed);
+void MoveIntent::moveAxisAC(){
+	moveAxis( getAxisId(), false);
 }
 
-void MoveIntent::speed_down(){
-	nowSpeed -= speedStep;
-	this->robot->setSpeed(nowSpeed);
+void MoveIntent::moveAxis(int axisId, bool isClockwise){
+
+	if(parameterMap.count(1) > 0)
+		this->robot->moveAxis(axisId, isClockwise, atoi(parameterMap[1].asString().c_str()));
+	else
+		this->robot->moveAxis(axisId, isClockwise, 0);
+}
+
+void MoveIntent::speedUp(){
+	int nowSpeed;
+	this->robot->getSpeed(nowSpeed);
+	this->robot->setSpeed(nowSpeed + speedStep);
+}
+
+void MoveIntent::speedDown(){
+	int nowSpeed;
+	this->robot->getSpeed(nowSpeed);
+	this->robot->setSpeed(nowSpeed - speedStep);
 }

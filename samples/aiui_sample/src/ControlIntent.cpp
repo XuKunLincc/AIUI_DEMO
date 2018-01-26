@@ -2,7 +2,7 @@
 
 ControlIntent::ControlIntent(RobotAgent *robot, Json::Value intent):RobotIntent(robot, intent){
 	string subIntentStr = subIntentJson.asString();
-	if(subIntentStr == "pause"){
+	if(subIntentStr == "stop"){
 		this->controlState = STOP;
 	}
 }

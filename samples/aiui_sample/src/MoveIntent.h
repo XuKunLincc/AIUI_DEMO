@@ -1,6 +1,7 @@
 #pragma once
 
 #include "RobotIntent.h"
+#include <map>
 
 #define MOVE_BY_DIREC 			"move_by_direction"
 #define TRANSLATION_BY_DIREC 		"translation_by_direction"
@@ -8,39 +9,28 @@
 #define MOVEAXIS_ANTICLOCK		"moveaxis_by_anticlock"
 #define ENABLE_STR "enable"
 #define UNABLE_STR "unable"
+#define SPPED_UP "speed_up"
+#define SPPED_DOWN "speed_down"
 
+#define speedStep 10
 
 class MoveIntent : public RobotIntent{
+
+	typedef void (MoveIntent:: *PAction)();
+
 private:
-	enum SubIntent
-	{
-		NOTHING = -1,
-		MOVE_BY_DIRECTION,				// 整体方向运动
-		MOVE_BY_AXIS_CLOCKWISE,			// 单轴运动 顺时针
-		MOVE_BY_AXIS_ANTICLOCK,			// 单轴运动 逆时针
-		TRAN_BY_DIRECTION,				// 平移运动
-		ENABLE,
-		UNABLE,
-		SPEED_UP,
-		SPEED_DOWN,
-	} subIntent;
+	map<string, PAction> actionMap;
 
-	RobotAgent::Direction direction;
-	bool isClockwise;
-	int axisId;
-	int nowSpeed, speedStep;
-
-
-	void moveByDirec();
-	void moveByDirecInit();
 	void translation();
-	void translationByDirecInit();
-	void moveAxis();
-	void getAxisId();
-	int enable();
-	int unable();
-	void speed_up();
-	void speed_down();
+	void moveAxisCW();
+	void moveAxisAC();
+	void moveAxis(int axisId, bool isClockwise);
+	int getAxisId();
+	void enable();
+	void unable();
+	void speedUp();
+	void speedDown();
+	RobotAgent::Direction getDirec();
 
 public:
 	MoveIntent(RobotAgent *robot, Json::Value intent);
