@@ -32,7 +32,7 @@ LDFLAGS := -L$(DIR_LIB)/x64
 else
 LDFLAGS := -L$(DIR_LIB)/x86 
 endif
-LDFLAGS += -fPIC -pthread -laiui -lLogApi -lHsc3Api -lCommApi -lboost_atomic -lboost_chrono -lboost_system -lboost_thread
+LDFLAGS += -fPIC -pthread -laiui -lLogApi -lHsc3Api -lCommApi -lboost_atomic -lboost_chrono -lboost_system -lboost_thread -lasound
 
 ## Stable Section: usually no need to be changed. But you can add more.
 ##==========================================================================

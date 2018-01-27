@@ -8,7 +8,7 @@
 
 using namespace std;
 
-
+#include <list>
 
 class RobotAgent{
 private:
@@ -18,6 +18,10 @@ private:
 	int speedStep;					// 每次机器人运行速率的变化歩长
 	ProxyMotion *mProxyMotion;
 	CommApi *mCommApi;
+
+	//list<JointPos> jointPosList;
+	JointPos jointPos;
+
 public:
 
 	enum Direction{LEFT, RIGHT, TOP, BOTTOM, FRONT, BACK};
@@ -32,6 +36,9 @@ public:
 	int enable(bool isEnable);
 	int setSpeed(int spped);
 	int getSpeed(int & speed);
+	void record();
+	void repeat();
+	void drag_mode(bool isIn);
 	//int recordDecaCoord(DcartPos  &pos);
 	//int recordDecaCoord(JointPos &pos):
 	//void robotGrap();				// 控制机械臂抓取

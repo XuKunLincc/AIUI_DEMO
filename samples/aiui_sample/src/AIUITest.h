@@ -34,6 +34,9 @@
 
 #include "jsoncpp/json/json.h"
 
+#define ALSA_PCM_NEW_HW_PARAMS_API
+#include <alsa/asoundlib.h>
+
 using namespace aiui;
 using namespace std;
 using namespace VA;
@@ -50,6 +53,10 @@ private:
 
 	bool mRun;
 
+	snd_pcm_t *handle;
+	char *audioBuffer;
+	snd_pcm_uframes_t frames;
+
 	FileUtil::DataFileHelper* mFileHelper;
 
   pthread_t thread_id;
@@ -57,6 +64,8 @@ private:
 
 private:
 	bool threadLoop();
+	int readAudio();
+	void initAudio();
 
   static void* thread_proc(void * paramptr);
 

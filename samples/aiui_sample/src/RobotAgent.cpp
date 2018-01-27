@@ -3,7 +3,7 @@
 #include <iostream>
 
 // 测试模式标志
-#define TEST_MODE  1
+#define TEST_MODE  0
 
 // 关节坐标下的运动
 void RobotAgent::moveByDirection(Direction direc){
@@ -84,6 +84,29 @@ int RobotAgent::enable(bool enable){
 #else
 	robot_debug("set the robot enable \n");
 #endif
+}
+
+void RobotAgent::record(){
+	mProxyMotion->getJointPos(0, jointPos);
+}
+void RobotAgent::repeat(){
+	LocationParameter param = {
+		.isJoint = true,
+		.ufNum = 0,
+		.utNum = 0,
+		.config = 0,
+		.vecPos = jointPos
+	};
+	mProxyMotion->moveTo(0, param, false);
+}
+
+void RobotAgent::drag_mode(bool isIn){
+	string tmp;
+	if(isIn)
+		mCommApi->NetSendStr("mot.setGpDrag(0, true)", tmp, 1);
+	else
+		mCommApi->NetSendStr("mot.setGpDrag(0, false)", tmp, 1);
+	cout << "tmp" << endl;
 }
 
 int RobotAgent::setSpeed(int speed){
