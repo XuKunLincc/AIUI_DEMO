@@ -10,6 +10,7 @@ MoveIntent::MoveIntent(RobotAgent *robot, Json::Value intent) : RobotIntent(robo
 	PAction pTranslation = &MoveIntent::translation;
 	PAction pSpeedUp = &MoveIntent::speedUp;
 	PAction pSpeedDown = &MoveIntent::speedDown;
+	PAction pSpeedSet = &MoveIntent::speedSet;
 
 	pair<string, PAction> pairEnable = make_pair(ENABLE_STR,pEnable);
 	pair<string, PAction> pairUnable = make_pair(UNABLE_STR,pUnable);
@@ -18,6 +19,7 @@ MoveIntent::MoveIntent(RobotAgent *robot, Json::Value intent) : RobotIntent(robo
 	pair<string, PAction> pairTranslation = make_pair(TRANSLATION_BY_DIREC,pTranslation);
 	pair<string, PAction> pairSpeedUp = make_pair(SPPED_UP,pSpeedUp);
 	pair<string, PAction> pairSpeedDown = make_pair(SPPED_DOWN,pSpeedDown);
+	pair<string, PAction> pairSpeedSet = make_pair(SPPED_DOWN,pSpeedSet);
 
 	actionMap.insert(pairEnable);
 	actionMap.insert(pairUnable);
@@ -26,6 +28,7 @@ MoveIntent::MoveIntent(RobotAgent *robot, Json::Value intent) : RobotIntent(robo
 	actionMap.insert(pairTranslation);
 	actionMap.insert(pairSpeedUp);
 	actionMap.insert(pairSpeedDown);
+	actionMap.insert(pairSpeedSet);
 }
 
 RobotAgent::Direction MoveIntent::getDirec(){
@@ -62,7 +65,7 @@ void MoveIntent::execAction(){
 }
 
 void  MoveIntent::translation(){
-	this->robot->translation(getDirec());	// 控制机械臂进行平移运动
+	this->robot->translation(getDirec(), 0);	// 控制机械臂进行平移运动
 }
 
 int MoveIntent::getAxisId(){
@@ -101,4 +104,9 @@ void MoveIntent::speedDown(){
 	int nowSpeed;
 	this->robot->getSpeed(nowSpeed);
 	this->robot->setSpeed(nowSpeed - speedStep);
+}
+
+void MoveIntent::speedSet(){
+	int speed  = atoi(parameterMap[0].asString().c_str());
+	this->robot->setSpeed(speed);
 }

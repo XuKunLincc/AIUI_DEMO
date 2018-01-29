@@ -1,6 +1,13 @@
 #include "RobotAgent.h"
 #include "RobotDebug.h"
 #include <iostream>
+#include <boost/thread.hpp>
+#include <boost/bind.hpp>
+
+using namespace boost;  
+  
+#define BOOST_DATE_TIME_SOURCE  
+#define BOOST_THREAD_NO_LIB  
 
 // 测试模式标志
 #define TEST_MODE  0
@@ -52,22 +59,53 @@ if(isClockwise){	// 顺时针
 	}
 }
 
+// 打印当前坐标到终端，测试用
+void RobotAgent::print_location(std::vector<double>& v)
+{
+	cout << "当前笛卡尔坐标 ";
+	for(std::vector<double>::iterator it = v.begin(); it != v.end(); it++)
+	{
+		cout << *it << " ";
+	}
+	cout << endl;
+}
+
+double pot_arr[6] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0};// 要到达的点位
+std::vector<double> pot(pot_arr,pot_arr+6);
+LocationParameter Locate = {false,0,0,1,pot};
 
 // 世界坐标下的平移
-void RobotAgent::translation(Direction direc){
-
+void RobotAgent::translation(Direction direc, int len){
+	if(robotStatus != READY)
+		return;
 	switch(direc){
 		case RobotAgent::RIGHT:
 			cout << "往右平移" << endl;
+			mProxyMotion->getLocPos(0,Locate.vecPos);	// 获取当前笛卡尔坐标		
+			Locate.vecPos[1] = Locate.vecPos[1] + MOVE_STEP;	// 更改坐标系Y沿正方向运动
+			mProxyMotion->moveTo(0, Locate, true);    	// 运动到点
+			print_location(Locate.vecPos);			// 笛卡尔坐标打印到终端				
 			break;
 		case RobotAgent::LEFT:
 			cout << "往左平移" << endl;
+			mProxyMotion->getLocPos(0,Locate.vecPos);	// 获取当前笛卡尔坐标
+			Locate.vecPos[1] = Locate.vecPos[1] - MOVE_STEP;	// 更改坐标系Y沿负方向运动
+			mProxyMotion->moveTo(0, Locate, true);    	// 运动到点
+			print_location(Locate.vecPos);			// 笛卡尔坐标打印到终端	
 			break;
 		case RobotAgent::TOP:
 			cout << "往上平移" << endl;
+			mProxyMotion->getLocPos(0,Locate.vecPos);	// 获取当前笛卡尔坐标		
+			Locate.vecPos[2] = Locate.vecPos[2] + MOVE_STEP;	// 更改坐标系Z沿正方向运动
+			mProxyMotion->moveTo(0, Locate, true);    	// 运动到点
+			print_location(Locate.vecPos);			// 笛卡尔坐标打印到终端	
 			break;
 		case RobotAgent::BOTTOM:
 			cout << "往下平移" << endl;
+			mProxyMotion->getLocPos(0,Locate.vecPos);	// 获取当前笛卡尔坐标		
+			Locate.vecPos[2] = Locate.vecPos[2] - MOVE_STEP;	// 更改坐标系Z沿负方向运动
+			mProxyMotion->moveTo(0, Locate, true);    	// 运动到点
+			print_location(Locate.vecPos);			// 笛卡尔坐标打印到终端	
 			break;
 	}
 	
@@ -87,17 +125,42 @@ int RobotAgent::enable(bool enable){
 }
 
 void RobotAgent::record(){
-	mProxyMotion->getJointPos(0, jointPos);
+
+	JointPos *tmpPos = new JointPos();
+	mProxyMotion->getJointPos(0, *tmpPos);
+	jointPosVec.push_back(*tmpPos);
 }
+
+void RobotAgent::__repeat(){
+	ManState state;	
+	for(int i = 0;  i < jointPosVec.size();  i++){
+		LocationParameter param = {
+			.isJoint = true,
+			.ufNum = 0,
+			.utNum = 0,
+			.config = 0,
+			.vecPos = jointPosVec[i]
+		};
+		mProxyMotion->moveTo(0, param, false);
+		cout << "repeat to pos"<< i << endl;
+		do{
+			boost::this_thread::sleep(boost::posix_time::milliseconds(100));
+			mProxyMotion->getManualStat(state);
+		}while(state == MAN_STATE_LOCATION);
+
+		if(robotStatus != REPEATING)
+			return;
+	}
+		robotStatus = READY;
+}
+
 void RobotAgent::repeat(){
-	LocationParameter param = {
-		.isJoint = true,
-		.ufNum = 0,
-		.utNum = 0,
-		.config = 0,
-		.vecPos = jointPos
-	};
-	mProxyMotion->moveTo(0, param, false);
+	if(robotStatus != REPEATING){
+		robotStatus = REPEATING;
+		boost::function0< void> f =  boost::bind(&RobotAgent::__repeat,this);
+		boost::thread repeatThd(f);
+		repeatThd.timed_join(boost::posix_time::milliseconds(1));
+	}
 }
 
 void RobotAgent::drag_mode(bool isIn){
@@ -124,7 +187,7 @@ int RobotAgent::setSpeed(int speed){
 
 int RobotAgent::getSpeed(int &speed){
 #if TEST_MODE == 0
-	HMCErrCode errorCode = mProxyMotion->getJogVord(speed);		// 上使能
+	HMCErrCode errorCode = mProxyMotion->getJogVord(speed);		
 	if(errorCode){
 		cout << "set sepeed err" << endl;
 		return -1;
@@ -141,8 +204,15 @@ void RobotAgent::startTasket(){
 }
 
 void RobotAgent::stopTasket(){
-	robot_debug("stopTasket \n");
+
 #if (TEST_MODE == 0)
+	if(robotStatus == REPEATING){
+		mProxyMotion->setEstop(true);
+		robotStatus = READY;
+		return ;
+	}
+	robotStatus = READY;
+	robot_debug("stopTasket \n");
 	mProxyMotion->stopJog(0);
 #endif
 }
@@ -163,6 +233,7 @@ int RobotAgent::initRobot(){
 		cout << "setGpEn err" << endl;
 	}
 #endif
+	robotStatus = READY;
 }
 
 RobotAgent::RobotAgent(const string &ip, uint16_t port){
@@ -183,4 +254,9 @@ RobotAgent::RobotAgent(const string &ip, uint16_t port){
 RobotAgent::~RobotAgent(){
 	mCommApi->NetExit();						// 断开控制器
 	robot_debug("IPC disconnect \n");
+}
+
+
+void RobotAgent::cleanPos(){
+
 }
