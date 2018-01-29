@@ -46,6 +46,8 @@ public:
 	void record();
 	void cleanPos();
 	void repeat();
+	void goHome();					// 回零点
+	int reset();					// 复位
 	void drag_mode(bool isIn);
 	//int recordDecaCoord(DcartPos  &pos);
 	//int recordDecaCoord(JointPos &pos):
