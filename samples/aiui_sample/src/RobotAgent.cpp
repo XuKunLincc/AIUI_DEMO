@@ -82,28 +82,42 @@ void RobotAgent::translation(Direction direc, int len){
 		case RobotAgent::RIGHT:
 			cout << "往右平移" << endl;
 			mProxyMotion->getLocPos(0,Locate.vecPos);	// 获取当前笛卡尔坐标		
-			Locate.vecPos[1] = Locate.vecPos[1] + MOVE_STEP;	// 更改坐标系Y沿正方向运动
+			Locate.vecPos[1] = Locate.vecPos[1] + MOVE_STEP;// 更改坐标系Y沿正方向运动
 			mProxyMotion->moveTo(0, Locate, true);    	// 运动到点
 			print_location(Locate.vecPos);			// 笛卡尔坐标打印到终端				
 			break;
 		case RobotAgent::LEFT:
 			cout << "往左平移" << endl;
 			mProxyMotion->getLocPos(0,Locate.vecPos);	// 获取当前笛卡尔坐标
-			Locate.vecPos[1] = Locate.vecPos[1] - MOVE_STEP;	// 更改坐标系Y沿负方向运动
+			Locate.vecPos[1] = Locate.vecPos[1] - MOVE_STEP;// 更改坐标系Y沿负方向运动
 			mProxyMotion->moveTo(0, Locate, true);    	// 运动到点
 			print_location(Locate.vecPos);			// 笛卡尔坐标打印到终端	
 			break;
 		case RobotAgent::TOP:
 			cout << "往上平移" << endl;
 			mProxyMotion->getLocPos(0,Locate.vecPos);	// 获取当前笛卡尔坐标		
-			Locate.vecPos[2] = Locate.vecPos[2] + MOVE_STEP;	// 更改坐标系Z沿正方向运动
+			Locate.vecPos[2] = Locate.vecPos[2] + MOVE_STEP;// 更改坐标系Z沿正方向运动
 			mProxyMotion->moveTo(0, Locate, true);    	// 运动到点
 			print_location(Locate.vecPos);			// 笛卡尔坐标打印到终端	
 			break;
 		case RobotAgent::BOTTOM:
 			cout << "往下平移" << endl;
 			mProxyMotion->getLocPos(0,Locate.vecPos);	// 获取当前笛卡尔坐标		
-			Locate.vecPos[2] = Locate.vecPos[2] - MOVE_STEP;	// 更改坐标系Z沿负方向运动
+			Locate.vecPos[2] = Locate.vecPos[2] - MOVE_STEP;// 更改坐标系Z沿负方向运动
+			mProxyMotion->moveTo(0, Locate, true);    	// 运动到点
+			print_location(Locate.vecPos);			// 笛卡尔坐标打印到终端	
+			break;
+		case RobotAgent::FRONT:
+			cout << "往前平移" << endl;
+			mProxyMotion->getLocPos(0,Locate.vecPos);	// 获取当前笛卡尔坐标		
+			Locate.vecPos[0] = Locate.vecPos[0] + MOVE_STEP;// 更改坐标系X沿正方向运动
+			mProxyMotion->moveTo(0, Locate, true);    	// 运动到点
+			print_location(Locate.vecPos);			// 笛卡尔坐标打印到终端	
+			break;
+		case RobotAgent::BACK:
+			cout << "往后平移" << endl;
+			mProxyMotion->getLocPos(0,Locate.vecPos);	// 获取当前笛卡尔坐标		
+			Locate.vecPos[0] = Locate.vecPos[0] - MOVE_STEP;// 更改坐标系X沿负方向运动
 			mProxyMotion->moveTo(0, Locate, true);    	// 运动到点
 			print_location(Locate.vecPos);			// 笛卡尔坐标打印到终端	
 			break;
@@ -113,7 +127,7 @@ void RobotAgent::translation(Direction direc, int len){
 
 int RobotAgent::enable(bool enable){
 #if TEST_MODE == 0
-	HMCErrCode errorCode = mProxyMotion->setGpEn(0, enable);		// 上使能
+	HMCErrCode errorCode = mProxyMotion->setGpEn(0, enable);	// 上使能
 	if(errorCode){
 		cout << "setGpEn err" << endl;
 		return -1;
@@ -163,13 +177,44 @@ void RobotAgent::repeat(){
 	}
 }
 
+// 拖动示教
 void RobotAgent::drag_mode(bool isIn){
 	string tmp;
-	if(isIn)
+	if(isIn){
+		cout << "掉使能，开启拖动示教" << endl;
+		enable(false);						// 调用使能方法
 		mCommApi->NetSendStr("mot.setGpDrag(0, true)", tmp, 1);
-	else
+}
+	else{
+		cout << "上使能" << endl;
+		enable(true);						// 调用使能方法
 		mCommApi->NetSendStr("mot.setGpDrag(0, false)", tmp, 1);
+}
 	cout << "tmp" << endl;
+}
+
+// 回零点
+void RobotAgent::goHome(){
+	cout << "回零点" << endl;
+	const double home_arr[6] = {0.0, -90.0, 0.0, 0.0, 90.0, 0.0};	// 零点
+	std::vector<double> home_pot(home_arr,home_arr+6);
+	LocationParameter home_locate = {true,0,0,1,home_pot};
+	mProxyMotion->moveTo(0, home_locate, false);    		// 运动到点
+	print_location(Locate.vecPos);					// 笛卡尔坐标打印到终端		
+}
+
+// 复位
+int RobotAgent::reset(){
+#if TEST_MODE == 0
+	HMCErrCode errorCode = mProxyMotion->gpReset(0);
+	if(errorCode){
+		cout << "group reset err" << endl;
+		return -1;
+	}
+	return 0;
+#else
+	robot_debug("group reset \n");
+#endif
 }
 
 int RobotAgent::setSpeed(int speed){
@@ -209,6 +254,8 @@ void RobotAgent::stopTasket(){
 	if(robotStatus == REPEATING){
 		mProxyMotion->setEstop(true);
 		robotStatus = READY;
+		sleep(1);
+		mProxyMotion->setEstop(false);
 		return ;
 	}
 	robotStatus = READY;
@@ -226,8 +273,8 @@ int RobotAgent::initRobot(){
 		cout << "华数三型API接口初始化错误" << endl;
 		return -1;	
 	}
-	mProxyMotion->setOpMode(OP_T1);		// 设置为手动T1模式
-	mProxyMotion->setJogVord(10);			// 默认10的倍速
+	mProxyMotion->setOpMode(OP_T1);					// 设置为手动T1模式
+	mProxyMotion->setJogVord(10);					// 默认10的倍速
 	HMCErrCode errorCode = mProxyMotion->setGpEn(0, true);		// 上使能
 	if(errorCode){
 		cout << "setGpEn err" << endl;
@@ -238,7 +285,7 @@ int RobotAgent::initRobot(){
 
 RobotAgent::RobotAgent(const string &ip, uint16_t port){
 	mCommApi = new CommApi();
-	HMCErrCode errorCode = mCommApi->NetConnect(ip, port);			// 连接控制器
+	HMCErrCode errorCode = mCommApi->NetConnect(ip, port);		// 连接控制器
 	sleep(1);
 	if(mCommApi->isConnected())
 		cout << "connected" << endl;
