@@ -15,9 +15,9 @@ ControlIntent::ControlIntent(RobotAgent *robot, Json::Value intent):RobotIntent(
 	}else if(subIntentStr == "clean_pos"){
 		this->controlState =CLEAN_POS;
 	}else if(subIntentStr == "reset"){
-		this->controlState =CLEAN_POS;
+		this->controlState =RESET;
 	}else if(subIntentStr == "go_home"){
-		this->controlState =CLEAN_POS;
+		this->controlState =GO_HOME;
 	}
 }
 
@@ -83,9 +83,9 @@ void ControlIntent::clean_pos(){
 }
 
 void ControlIntent::go_home(){
-
+	robot->goHome();
 }
 
 void ControlIntent::reset(){
-
+	robot->reset();
 }
