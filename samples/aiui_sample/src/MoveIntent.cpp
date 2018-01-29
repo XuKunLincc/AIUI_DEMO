@@ -65,7 +65,11 @@ void MoveIntent::execAction(){
 }
 
 void  MoveIntent::translation(){
-	this->robot->translation(getDirec(), 0);	// 控制机械臂进行平移运动
+
+	if(parameterMap.count(1) > 0)
+		this->robot->translation(getDirec(), atoi(parameterMap[1].asString().c_str()));
+	else
+		this->robot->translation(getDirec(), 0);
 }
 
 int MoveIntent::getAxisId(){

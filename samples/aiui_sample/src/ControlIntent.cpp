@@ -12,6 +12,12 @@ ControlIntent::ControlIntent(RobotAgent *robot, Json::Value intent):RobotIntent(
 		this->controlState = DRAG_MODE;
 	}else if(subIntentStr == "normal_mode"){
 		this->controlState = NORMAL_MODE;
+	}else if(subIntentStr == "clean_pos"){
+		this->controlState =CLEAN_POS;
+	}else if(subIntentStr == "reset"){
+		this->controlState =CLEAN_POS;
+	}else if(subIntentStr == "go_home"){
+		this->controlState =CLEAN_POS;
 	}
 }
 
@@ -45,6 +51,15 @@ void ControlIntent::execAction(){
 		case REPEAT:
 			repeat();
 			break;
+		case CLEAN_POS:
+			clean_pos();
+			break;	
+		case RESET:
+			reset();
+			break;
+		case GO_HOME:
+			go_home();
+			break;
 		
 	}
 }
@@ -61,4 +76,16 @@ void ControlIntent::normal_mode(){
 }
 void ControlIntent::drag_mode(){
 	robot->drag_mode(true);
+}
+
+void ControlIntent::clean_pos(){
+	robot->cleanPos();
+}
+
+void ControlIntent::go_home(){
+
+}
+
+void ControlIntent::reset(){
+
 }
