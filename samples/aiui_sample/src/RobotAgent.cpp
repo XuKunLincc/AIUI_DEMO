@@ -180,17 +180,18 @@ void RobotAgent::repeat(){
 // 拖动示教
 void RobotAgent::drag_mode(bool isIn){
 	string tmp;
+	enable(false);						// 调用使能方法
 	if(isIn){
 		cout << "掉使能，开启拖动示教" << endl;
-		enable(false);						// 调用使能方法
 		mCommApi->NetSendStr("mot.setGpDrag(0, true)", tmp, 1);
 }
 	else{
 		cout << "上使能" << endl;
-		enable(true);						// 调用使能方法
 		mCommApi->NetSendStr("mot.setGpDrag(0, false)", tmp, 1);
 }
-	cout << "tmp" << endl;
+	sleep(1);
+	enable(true);						// 调用使能方法
+	cout << tmp << endl;
 }
 
 // 回零点
@@ -206,6 +207,7 @@ void RobotAgent::goHome(){
 // 复位
 int RobotAgent::reset(){
 #if TEST_MODE == 0
+	cout << "复位" << endl;
 	HMCErrCode errorCode = mProxyMotion->gpReset(0);
 	if(errorCode){
 		cout << "group reset err" << endl;
