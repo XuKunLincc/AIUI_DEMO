@@ -201,7 +201,8 @@ void RobotAgent::goHome(){
 	std::vector<double> home_pot(home_arr,home_arr+6);
 	LocationParameter home_locate = {true,0,0,1,home_pot};
 	mProxyMotion->moveTo(0, home_locate, false);    		// 运动到点
-	print_location(Locate.vecPos);					// 笛卡尔坐标打印到终端		
+	print_location(Locate.vecPos);					// 笛卡尔坐标打印到终端
+	robot_debug("go home \n");		
 }
 
 // 复位

@@ -20,7 +20,10 @@ private:
 		RECORD,
 		NORMAL_MODE,
 		DRAG_MODE,
-		REPEAT
+		REPEAT,
+		CLEAN_POS,
+		RESET,
+		GO_HOME
 	} controlState;
 	
 	void startTasket();
@@ -30,6 +33,9 @@ private:
 	void repeat();
 	void normal_mode();
 	void drag_mode();
+	void clean_pos();
+	void go_home();
+	void reset();
 
 public:
 	ControlIntent(RobotAgent *robot, Json::Value intent);
