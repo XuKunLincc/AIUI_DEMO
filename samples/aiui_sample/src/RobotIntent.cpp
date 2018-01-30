@@ -22,6 +22,7 @@ RobotIntent::RobotIntent(RobotAgent *robot, Json::Value intentJson){
 	for(int index = 0;  index < slotsJson.size(); ++index){
 		parameterMap.insert(pair<int, Json::Value>(index, (slotsJson[index])["normValue"]));
 	}
+	
 	this->robot = robot;
 }
 

@@ -19,7 +19,7 @@ MoveIntent::MoveIntent(RobotAgent *robot, Json::Value intent) : RobotIntent(robo
 	pair<string, PAction> pairTranslation = make_pair(TRANSLATION_BY_DIREC,pTranslation);
 	pair<string, PAction> pairSpeedUp = make_pair(SPPED_UP,pSpeedUp);
 	pair<string, PAction> pairSpeedDown = make_pair(SPPED_DOWN,pSpeedDown);
-	pair<string, PAction> pairSpeedSet = make_pair(SPPED_DOWN,pSpeedSet);
+	pair<string, PAction> pairSpeedSet = make_pair(SPEED_SET,pSpeedSet);
 
 	actionMap.insert(pairEnable);
 	actionMap.insert(pairUnable);
