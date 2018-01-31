@@ -299,6 +299,7 @@ RobotAgent::RobotAgent(const string &ip, uint16_t port){
 
 	robot_debug("IPC connect \n");
 	mProxyMotion = new ProxyMotion(mCommApi);
+	mProxySys = new ProxySys(mCommApi);
 }
 
 RobotAgent::~RobotAgent(){
@@ -308,5 +309,23 @@ RobotAgent::~RobotAgent(){
 
 
 void RobotAgent::cleanPos(){
+
+}
+
+
+/**
+	## multithreading function
+	get the robot status and error code.
+	return 0 if not error, return != 0 was error code
+**/
+int RobotAgent::getAlarm(){
+	int type, code, waitTime = 0;
+	string srtMsg;
+
+	HMCErrCode errorCode = mProxySys->getMessage(type, code, strMsg, waitTime);
+	if(errorCode){
+		cout << "get the Message error" << endl;
+		return -1;
+	}
 
 }

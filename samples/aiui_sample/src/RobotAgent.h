@@ -18,16 +18,13 @@ private:
 		ERROR = -1,
 		REPEATING,
 		READY,
+		ALARM,
+		RUNNING,
 	} robotStatus;
-	int lastTasket;
-	int nowTasket;
-	int speedNow;					// 当前机器人速率
-	int speedStep;					// 每次机器人运行速率的变化歩长
 	ProxyMotion *mProxyMotion;
+	ProxySys *mProxySys;
 	CommApi *mCommApi;
-
 	vector<JointPos> jointPosVec;
-	JointPos jointPos;
 
 public:
 
@@ -49,6 +46,7 @@ public:
 	void goHome();					// 回零点
 	int reset();					// 复位
 	void drag_mode(bool isIn);
+	int getAlarm();					// get the error code
 	//int recordDecaCoord(DcartPos  &pos);
 	//int recordDecaCoord(JointPos &pos):
 	//void robotGrap();				// 控制机械臂抓取
