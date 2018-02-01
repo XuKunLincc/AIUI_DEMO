@@ -7,7 +7,7 @@
 #include "hsc/ProxyMotion.h"
 #include <list>
 
-#define MOVE_STEP 150
+#define MOVE_STEP 200
 
 using namespace std;
 
