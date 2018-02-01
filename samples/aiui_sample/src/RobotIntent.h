@@ -22,7 +22,6 @@ protected:
 
 public:
 	RobotIntent(RobotAgent *robot, Json::Value intent);
-	//~RobotIntent();
 
 	virtual void execAction(){};	// 执行对应的Action
 };
