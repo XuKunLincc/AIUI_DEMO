@@ -10,6 +10,7 @@
 
 #include "aiui/AIUI.h"
 #include "RobotAgent.h"
+#include "RobotAlarmThread.h"
 
 #include <string>
 #include <iostream>
@@ -97,6 +98,7 @@ private:
 	TestListener listener;
 
 	RobotAgent* mRobot;
+	RobotAlarmThread *mRobotAlarmThr;
 
 	WriteAudioThread * writeThread;
 public:

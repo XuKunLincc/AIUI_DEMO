@@ -127,6 +127,10 @@ void RobotAgent::translation(Direction direc, int len){
 
 int RobotAgent::enable(bool enable){
 #if TEST_MODE == 0
+	if(robotStatus == ALARM){
+		cout << "the robot was alarm can't set the enable" << endl;
+		return -1;
+	}
 	HMCErrCode errorCode = mProxyMotion->setGpEn(0, enable);	// 上使能
 	if(errorCode){
 		cout << "setGpEn err" << endl;
@@ -277,7 +281,7 @@ int RobotAgent::initRobot(){
 		return -1;	
 	}
 	mProxyMotion->setOpMode(OP_T1);					// 设置为手动T1模式
-	mProxyMotion->setJogVord(10);					// 默认10的倍速
+	mProxyMotion->setJogVord(10);						// 默认10的倍速
 	HMCErrCode errorCode = mProxyMotion->setGpEn(0, true);		// 上使能
 	if(errorCode){
 		cout << "setGpEn err" << endl;
@@ -318,14 +322,16 @@ void RobotAgent::cleanPos(){
 	get the robot status and error code.
 	return 0 if not error, return != 0 was error code
 **/
-int RobotAgent::getAlarm(){
-	int type, code, waitTime = 0;
-	string srtMsg;
+int RobotAgent::getAlarm(int &type, uint64_t &code, string &strMsg){
+	int  waitTime = 0;
+	HMCErrCode errorCode = mProxySys->getMessage(type, code, strMsg, 1);
+	return errorCode;
+}
 
-	HMCErrCode errorCode = mProxySys->getMessage(type, code, strMsg, waitTime);
-	if(errorCode){
-		cout << "get the Message error" << endl;
-		return -1;
-	}
+int RobotAgent::setState(RobotStatus status){
+	robotStatus = status;
+}
 
+RobotStatus RobotAgent::getState(){
+	return robotStatus;
 }

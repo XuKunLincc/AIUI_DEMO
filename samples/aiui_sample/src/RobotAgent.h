@@ -5,22 +5,24 @@
 #include <stdint.h>
 #include "hsc/CommApi.h"
 #include "hsc/ProxyMotion.h"
+#include "hsc/ProxySys.h"
 #include <list>
+#include <stdint.h>
 
 #define MOVE_STEP 150
 
 using namespace std;
 
+enum RobotStatus{
+	NOTHING = -1,
+	REPEATING,
+	READY,
+	ALARM,
+};
+
 class RobotAgent{
 private:
-	enum RobotStatus
-	{
-		ERROR = -1,
-		REPEATING,
-		READY,
-		ALARM,
-		RUNNING,
-	} robotStatus;
+	RobotStatus robotStatus;
 	ProxyMotion *mProxyMotion;
 	ProxySys *mProxySys;
 	CommApi *mCommApi;
@@ -46,11 +48,9 @@ public:
 	void goHome();					// 回零点
 	int reset();					// 复位
 	void drag_mode(bool isIn);
-	int getAlarm();					// get the error code
-	//int recordDecaCoord(DcartPos  &pos);
-	//int recordDecaCoord(JointPos &pos):
-	//void robotGrap();				// 控制机械臂抓取
-	//void robotUnclasp();				// 控制机械臂松开
+	int getAlarm(int &type, uint64_t &code, string &strMsg);					// get the error code
+	int setState(RobotStatus status);
+	RobotStatus getState();
 
 	RobotAgent(const string &ip, uint16_t port);	// 控制器IP
 	void print_location(std::vector<double>& v);	// 打印当前坐标到终端

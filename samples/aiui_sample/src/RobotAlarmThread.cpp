@@ -1,14 +1,16 @@
 #include "RobotAlarmThread.h"
 
+RobotAlarmThread *RobotAlarmThread::mAlarmThread = NULL;
 
-RobotAlarmThread * RobotAlarmThread::creatRobotAlarmThread(RobotAgent * mRobot){
-	if(mThread == NULL)
-		mThread = new RobotAlarmThread(mRobot);
-	return mThread;
+RobotAlarmThread * RobotAlarmThread::creatRobotAlarmThread(RobotAgent * robot){
+	if(mAlarmThread == NULL)
+		mAlarmThread = new RobotAlarmThread(robot);
+	return mAlarmThread;
 }
 
 RobotAlarmThread::RobotAlarmThread(RobotAgent *robot){
 	this->mRobot = robot;
+	running = false;
 }
 
 void RobotAlarmThread::run(){
@@ -23,27 +25,33 @@ void RobotAlarmThread::stop(){
 }
 
 void RobotAlarmThread::getRobotAlarm(){
-	int type, code, ret;
+	int type, ret;
+	uint64_t code;
 	string strMsg;
 
+	cout << "start getRobotAlarm theread" << endl;
 	while(running){
 
 		ret = this->mRobot->getAlarm(type, code, strMsg);
 		if(ret == KM_ERR_NO_MESSAGE || ret == KM_ERR_INVALID_MESSAGE){
-			if(this->mRobot->getState() == ALARM)
+			if(this->mRobot->getState() == ALARM){
 				this->mRobot->setState(READY);
+				speechAlarm(code);
+			}
 		}else if(0 == ret){
 			cout << "the robot have a alarm" << endl;
 			cout << "++++++++the alarm code was" << code << endl;
 			cout << "@@@@@the alarm message was" << strMsg << endl;
-			if(this->mRobot->getState() != ALARM)
+			if(this->mRobot->getState() != ALARM){
 				this->mRobot->setState(ALARM);
+				speechAlarm(code);
+			}
 		}
-
+		
 		boost::this_thread::sleep(boost::posix_time::milliseconds(500));
 	}
 }
 
-void RobotAlarmThread::speechAlarm(int errorCode){
-
+void RobotAlarmThread::speechAlarm(uint64_t errorCode){
+	cout << "i can't speak chinese" << endl;
 }
