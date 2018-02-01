@@ -9,7 +9,7 @@
 #include <list>
 #include <stdint.h>
 
-#define MOVE_STEP 150
+#define MOVE_STEP 200
 
 using namespace std;
 

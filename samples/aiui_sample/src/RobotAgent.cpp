@@ -81,46 +81,64 @@ void RobotAgent::translation(Direction direc, int len){
 	switch(direc){
 		case RobotAgent::RIGHT:
 			cout << "往右平移" << endl;
-			mProxyMotion->getLocPos(0,Locate.vecPos);	// 获取当前笛卡尔坐标		
-			Locate.vecPos[1] = Locate.vecPos[1] + MOVE_STEP;// 更改坐标系Y沿正方向运动
+			mProxyMotion->getLocPos(0,Locate.vecPos);	// 获取当前笛卡尔坐标
+			if(len == 0)
+				Locate.vecPos[1] = Locate.vecPos[1] + MOVE_STEP;// 更改坐标系Y沿正方向运动
+			else
+				Locate.vecPos[1] = Locate.vecPos[1] + len;// 更改坐标系Y沿正方向运动			
 			mProxyMotion->moveTo(0, Locate, true);    	// 运动到点
 			print_location(Locate.vecPos);			// 笛卡尔坐标打印到终端				
 			break;
 		case RobotAgent::LEFT:
 			cout << "往左平移" << endl;
 			mProxyMotion->getLocPos(0,Locate.vecPos);	// 获取当前笛卡尔坐标
-			Locate.vecPos[1] = Locate.vecPos[1] - MOVE_STEP;// 更改坐标系Y沿负方向运动
+			if(len == 0)
+				Locate.vecPos[1] = Locate.vecPos[1] - MOVE_STEP;// 更改坐标系Y沿负方向运动
+			else
+				Locate.vecPos[1] = Locate.vecPos[1] - len;// 更改坐标系Y沿负方向运动
 			mProxyMotion->moveTo(0, Locate, true);    	// 运动到点
 			print_location(Locate.vecPos);			// 笛卡尔坐标打印到终端	
 			break;
 		case RobotAgent::TOP:
 			cout << "往上平移" << endl;
-			mProxyMotion->getLocPos(0,Locate.vecPos);	// 获取当前笛卡尔坐标		
-			Locate.vecPos[2] = Locate.vecPos[2] + MOVE_STEP;// 更改坐标系Z沿正方向运动
+			mProxyMotion->getLocPos(0,Locate.vecPos);	// 获取当前笛卡尔坐标
+			if(len == 0)		
+				Locate.vecPos[2] = Locate.vecPos[2] + MOVE_STEP;// 更改坐标系Z沿正方向运动
+			else
+				Locate.vecPos[2] = Locate.vecPos[2] + len;// 更改坐标系Z沿正方向运动
 			mProxyMotion->moveTo(0, Locate, true);    	// 运动到点
 			print_location(Locate.vecPos);			// 笛卡尔坐标打印到终端	
 			break;
 		case RobotAgent::BOTTOM:
 			cout << "往下平移" << endl;
-			mProxyMotion->getLocPos(0,Locate.vecPos);	// 获取当前笛卡尔坐标		
-			Locate.vecPos[2] = Locate.vecPos[2] - MOVE_STEP;// 更改坐标系Z沿负方向运动
+			mProxyMotion->getLocPos(0,Locate.vecPos);	// 获取当前笛卡尔坐标	
+			if(len == 0)	
+				Locate.vecPos[2] = Locate.vecPos[2] - MOVE_STEP;// 更改坐标系Z沿负方向运动
+			else
+				Locate.vecPos[2] = Locate.vecPos[2] - len;// 更改坐标系Z沿负方向运动
 			mProxyMotion->moveTo(0, Locate, true);    	// 运动到点
 			print_location(Locate.vecPos);			// 笛卡尔坐标打印到终端	
 			break;
 		case RobotAgent::FRONT:
 			cout << "往前平移" << endl;
-			mProxyMotion->getLocPos(0,Locate.vecPos);	// 获取当前笛卡尔坐标		
-			Locate.vecPos[0] = Locate.vecPos[0] + MOVE_STEP;// 更改坐标系X沿正方向运动
+			mProxyMotion->getLocPos(0,Locate.vecPos);	// 获取当前笛卡尔坐标
+			if(len == 0)			
+				Locate.vecPos[0] = Locate.vecPos[0] + MOVE_STEP;// 更改坐标系X沿正方向运动
+			else
+				Locate.vecPos[0] = Locate.vecPos[0] + len;// 更改坐标系X沿正方向运动
 			mProxyMotion->moveTo(0, Locate, true);    	// 运动到点
 			print_location(Locate.vecPos);			// 笛卡尔坐标打印到终端	
 			break;
 		case RobotAgent::BACK:
 			cout << "往后平移" << endl;
-			mProxyMotion->getLocPos(0,Locate.vecPos);	// 获取当前笛卡尔坐标		
-			Locate.vecPos[0] = Locate.vecPos[0] - MOVE_STEP;// 更改坐标系X沿负方向运动
+			mProxyMotion->getLocPos(0,Locate.vecPos);	// 获取当前笛卡尔坐标
+			if(len == 0)			
+				Locate.vecPos[0] = Locate.vecPos[0] - MOVE_STEP;// 更改坐标系X沿负方向运动
+			else
+				Locate.vecPos[0] = Locate.vecPos[0] - len;// 更改坐标系X沿负方向运动
 			mProxyMotion->moveTo(0, Locate, true);    	// 运动到点
 			print_location(Locate.vecPos);			// 笛卡尔坐标打印到终端	
-			break;
+			break;			
 	}
 	
 }
@@ -151,6 +169,7 @@ void RobotAgent::record(){
 
 void RobotAgent::__repeat(){
 	ManState state;	
+	int k = 0;
 	for(int i = 0;  i < jointPosVec.size();  i++){
 		LocationParameter param = {
 			.isJoint = true,
@@ -160,14 +179,13 @@ void RobotAgent::__repeat(){
 			.vecPos = jointPosVec[i]
 		};
 		mProxyMotion->moveTo(0, param, false);
-		cout << "repeat to pos"<< i << endl;
 		do{
 			boost::this_thread::sleep(boost::posix_time::milliseconds(100));
 			mProxyMotion->getManualStat(state);
-		}while(state == MAN_STATE_LOCATION);
+		}while(state);
 
 		if(robotStatus != REPEATING)
-			return;
+			break;
 	}
 		robotStatus = READY;
 }
@@ -185,14 +203,17 @@ void RobotAgent::repeat(){
 void RobotAgent::drag_mode(bool isIn){
 	string tmp;
 	enable(false);						// 调用使能方法
+	sleep(1);
+	reset();
 	if(isIn){
 		cout << "掉使能，开启拖动示教" << endl;
 		mCommApi->NetSendStr("mot.setGpDrag(0, true)", tmp, 1);
 }
 	else{
-		cout << "上使能" << endl;
 		mCommApi->NetSendStr("mot.setGpDrag(0, false)", tmp, 1);
 }
+	sleep(2);
+	reset();
 	sleep(1);
 	enable(true);						// 调用使能方法
 	cout << tmp << endl;
@@ -291,7 +312,7 @@ int RobotAgent::initRobot(){
 }
 
 RobotAgent::RobotAgent(const string &ip, uint16_t port){
-	mCommApi = new CommApi();
+	mCommApi = new CommApi("demo_log");
 	HMCErrCode errorCode = mCommApi->NetConnect(ip, port);		// 连接控制器
 	sleep(1);
 	if(mCommApi->isConnected())
@@ -307,15 +328,21 @@ RobotAgent::RobotAgent(const string &ip, uint16_t port){
 }
 
 RobotAgent::~RobotAgent(){
-	mCommApi->NetExit();						// 断开控制器
+	mCommApi->NetExit();						 // 断开控制器
 	robot_debug("IPC disconnect \n");
 }
 
 
 void RobotAgent::cleanPos(){
-
+	cout << "posistion clear" << endl;
+	cout << "clear before" << endl;
+	cout << "vector.capacity = " << jointPosVec.capacity() << endl; // 打印容器容量
+	cout << "vector.size = " << jointPosVec.size() << endl;	 	// 打印当前容器字节数
+	vector <JointPos>().swap(jointPosVec);				// 清空所记录的点位数据并释放内存
+	cout << "clear after" << endl;
+	cout << "vector.capacity = " << jointPosVec.capacity() << endl; // 打印容器容量
+	cout << "vector.size = " << jointPosVec.size() << endl;	 	// 打印当前容器字节数
 }
-
 
 /**
 	## multithreading function
@@ -335,3 +362,4 @@ int RobotAgent::setState(RobotStatus status){
 RobotStatus RobotAgent::getState(){
 	return robotStatus;
 }
+
