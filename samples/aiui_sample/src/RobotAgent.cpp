@@ -145,15 +145,12 @@ void RobotAgent::translation(Direction direc, int len){
 
 int RobotAgent::enable(bool enable){
 #if TEST_MODE == 0
-	if(robotStatus == ALARM){
-		cout << "the robot was alarm can't set the enable" << endl;
-		return -1;
-	}
 	HMCErrCode errorCode = mProxyMotion->setGpEn(0, enable);	// 上使能
 	if(errorCode){
 		cout << "setGpEn err" << endl;
 		return -1;
 	}
+	robot_debug("set the robot enable \n");
 	return 0;
 #else
 	robot_debug("set the robot enable \n");
@@ -170,24 +167,31 @@ void RobotAgent::record(){
 void RobotAgent::__repeat(){
 	ManState state;	
 	int k = 0;
-	for(int i = 0;  i < jointPosVec.size();  i++){
-		LocationParameter param = {
-			.isJoint = true,
-			.ufNum = 0,
-			.utNum = 0,
-			.config = 0,
-			.vecPos = jointPosVec[i]
-		};
-		mProxyMotion->moveTo(0, param, false);
-		do{
-			boost::this_thread::sleep(boost::posix_time::milliseconds(100));
-			mProxyMotion->getManualStat(state);
-		}while(state);
 
-		if(robotStatus != REPEATING)
-			break;
+	while(true){
+		for(int i = 0;  i < jointPosVec.size();  i++){
+		
+			LocationParameter param = {
+				.isJoint = true,
+				.ufNum = 0,
+				.utNum = 0,
+				.config = 0,
+				.vecPos = jointPosVec[i]
+			};
+			mProxyMotion->moveTo(0, param, false);
+			do{
+				boost::this_thread::sleep(boost::posix_time::milliseconds(100));
+				mProxyMotion->getManualStat(state);
+			}while(state);	
+
+			if(robotStatus != REPEATING){
+				robotStatus = READY;
+				return;
+			}
+		}
 	}
-		robotStatus = READY;
+
+		
 }
 
 void RobotAgent::repeat(){
@@ -203,18 +207,17 @@ void RobotAgent::repeat(){
 void RobotAgent::drag_mode(bool isIn){
 	string tmp;
 	enable(false);						// 调用使能方法
-	sleep(1);
+	sleep(2);
 	reset();
 	if(isIn){
 		cout << "掉使能，开启拖动示教" << endl;
 		mCommApi->NetSendStr("mot.setGpDrag(0, true)", tmp, 1);
-}
+	}
 	else{
 		mCommApi->NetSendStr("mot.setGpDrag(0, false)", tmp, 1);
-}
-	sleep(2);
-	reset();
-	sleep(1);
+	}
+	sleep(6);
+	//reset();
 	enable(true);						// 调用使能方法
 	cout << tmp << endl;
 }
@@ -233,12 +236,16 @@ void RobotAgent::goHome(){
 // 复位
 int RobotAgent::reset(){
 #if TEST_MODE == 0
+	if(robotStatus != ALARM)
+		return -1;
 	cout << "复位" << endl;
 	HMCErrCode errorCode = mProxyMotion->gpReset(0);
 	if(errorCode){
 		cout << "group reset err" << endl;
 		return -1;
 	}
+	
+	robotStatus = READY;
 	return 0;
 #else
 	robot_debug("group reset \n");

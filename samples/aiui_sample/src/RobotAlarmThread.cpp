@@ -34,18 +34,16 @@ void RobotAlarmThread::getRobotAlarm(){
 
 		ret = this->mRobot->getAlarm(type, code, strMsg);
 		if(ret == KM_ERR_NO_MESSAGE || ret == KM_ERR_INVALID_MESSAGE){
-			if(this->mRobot->getState() == ALARM){
-				this->mRobot->setState(READY);
-				speechAlarm(code);
-			}
-		}else if(0 == ret){
+			
+		}else if(0 == ret && -1 < type){
 			cout << "the robot have a alarm" << endl;
-			cout << "++++++++the alarm code was" << code << endl;
-			cout << "@@@@@the alarm message was" << strMsg << endl;
-			if(this->mRobot->getState() != ALARM){
-				this->mRobot->setState(ALARM);
-				speechAlarm(code);
-			}
+			cout << "++++++++the alarm code was " << code << endl;
+			cout << "@@@@@the alarm message was " << strMsg << endl;
+			cout << "@@@@@the alarm type was " << type << endl;
+			//if(this->mRobot->getState() != ALARM){
+			this->mRobot->setState(ALARM);
+			speechAlarm(code);
+			//}
 		}
 		
 		boost::this_thread::sleep(boost::posix_time::milliseconds(500));
